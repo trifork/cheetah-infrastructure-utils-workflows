@@ -6,6 +6,12 @@ on:
         type: string
         description: Which hlem chart to create a release candidate for
         required: true
+
+    secrets:
+      PAT:
+        description: Token to create to publish a release
+        required: true
+
 jobs:
   check-branch:
     runs-on: ubuntu-latest
@@ -34,8 +40,5 @@ jobs:
         uses: ./.github/actions/helm/helm-publish/
         with:
           package-suffix: "RC${{github.run_number}}"
-          PAT: ${{ secrets.GH_TOKEN }}
+          PAT: ${{ secrets.PAT }}
           chart: ${{inputs.helm-chart}}
-
-
-

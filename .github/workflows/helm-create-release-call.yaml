@@ -7,6 +7,11 @@ on:
         description: Which hlem chart to create a release for
         required: true
 
+    secrets:
+      PAT:
+        description: Token to create to publish a release
+        required: true
+
 jobs:
   verify-release-branch:
     runs-on: ubuntu-latest
@@ -34,14 +39,14 @@ jobs:
         id: build-and-release
         uses: ./.github/actions/helm/helm-publish/
         with:
-          PAT: ${{ secrets.GH_TOKEN }}
-          package-suffix: ''
+          PAT: ${{ secrets.PAT }}
+          package-suffix: ""
           chart: ${{ inputs.helm-chart }}
 
       - name: Generate Checksum
         uses: jmgilman/actions-generate-checksum@v1.0.0
         with:
-          patterns: './${{ inputs.helm-chart }}-${{steps.build-and-release.outputs.version}}.tgz'
+          patterns: "./${{ inputs.helm-chart }}-${{steps.build-and-release.outputs.version}}.tgz"
 
       - name: Create release
         uses: softprops/action-gh-release@v1
@@ -54,7 +59,7 @@ jobs:
         uses: ./.github/actions/versioning/bump-version/
         with:
           file-path: ./charts/${{ inputs.helm-chart}}/Chart.yaml
-          prefix: 'version: '
+          prefix: "version: "
           bump-type: "patch"
 
       - name: Commit release branch bump

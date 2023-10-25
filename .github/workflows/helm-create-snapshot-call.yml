@@ -7,7 +7,10 @@ on:
         type: string
         description: Which hlem chart to create a snapshot for
         required: true
-
+    secrets:
+      PAT:
+        description: Token to create to publish a release
+        required: true
 
 jobs:
   create-snapshot:
@@ -20,5 +23,5 @@ jobs:
         uses: ./.github/actions/helm/helm-publish/
         with:
           package-suffix: "SNAPSHOT${{github.run_number}}"
-          PAT: ${{ secrets.GH_TOKEN }}
+          PAT: ${{ secrets.PAT }}
           chart: ${{inputs.helm-chart}}

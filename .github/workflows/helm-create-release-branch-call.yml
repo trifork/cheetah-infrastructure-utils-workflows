@@ -2,16 +2,15 @@ name: Helm Create Release Branch
 on:
   workflow_call:
     inputs:
-      helm-chart-increment:
+      helm-chart:
         type: string
-        description: Which hlem chart to increment
+        description: Which hlem chart to create a release branch for
         required: true
 
-
-      main-increment:
+      bump-type:
         type: string
-        description: Increment helm chart main branch
-        default: 'minor'
+        description: Which type of update? patch, minor or major
+        default: "minor"
         required: false
 
 jobs:
@@ -30,14 +29,14 @@ jobs:
         id: chart
         uses: jacobtomlinson/gha-read-helm-chart@0.1.3
         with:
-          path: ./charts/${{ inputs.helm-chart-increment}}
+          path: ./charts/${{ inputs.helm-chart}}
 
       - name: Bump major version
-        if: ${{inputs.main-increment == 'major'}}
+        if: ${{inputs.bump-type == 'major'}}
         uses: ./.github/actions/versioning/bump-version/
         with:
-          file-path: ./charts/${{ inputs.helm-chart-increment}}/Chart.yaml
-          prefix: 'version: '
+          file-path: ./charts/${{ inputs.helm-chart }}/Chart.yaml
+          prefix: "version: "
           bump-type: "major"
 
       - name: Print outputs
@@ -55,8 +54,8 @@ jobs:
       - name: Bump version
         uses: ./.github/actions/versioning/bump-version/
         with:
-          file-path: ./charts/${{ inputs.helm-chart-increment}}/Chart.yaml
-          prefix: 'version: '
+          file-path: ./charts/${{ inputs.helm-chart}}/Chart.yaml
+          prefix: "version: "
           bump-type: "minor"
 
       - name: Commit version bump
@@ -64,9 +63,6 @@ jobs:
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor }}@users.noreply.github.com"
 
-          git add ./charts/${{ inputs.helm-chart-increment}}
+          git add ./charts/${{ inputs.helm-chart}}
           git commit -m "Bump minor version to keep snapshot version ahead"
           git push
-
-
-
