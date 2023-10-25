@@ -1,23 +1,18 @@
 name: Helm Create Release Branch
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       helm-chart-increment:
-        type: choice
+        type: string
         description: Which hlem chart to increment
-        default: ''
-        options:
-        - cheetah-application
-        - flink-job
-        - image-automation
+        required: true
+
 
       main-increment:
-        type: choice
+        type: string
         description: Increment helm chart main branch
         default: 'minor'
-        options:
-        - major
-        - minor
+        required: false
 
 jobs:
   create-release-branch:

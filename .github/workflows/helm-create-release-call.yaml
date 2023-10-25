@@ -1,16 +1,11 @@
 name: Helm Create Release Call
-
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       helm-chart:
-        type: choice
-        description: Which hlem chart to publish
-        default: ''
-        options:
-        - cheetah-application
-        - flink-job
-        - image-automation
+        type: string
+        description: Which hlem chart to create a release for
+        required: true
 
 jobs:
   verify-release-branch:

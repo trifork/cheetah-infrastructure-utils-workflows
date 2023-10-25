@@ -1,16 +1,13 @@
 name: Helm Create Snapshot Call
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       helm-chart:
-        type: choice
+        type: string
         description: Which hlem chart to create a snapshot for
-        default: ''
-        options:
-        - cheetah-application
-        - flink-job
-        - image-automation
+        required: true
+
 
 jobs:
   create-snapshot:
