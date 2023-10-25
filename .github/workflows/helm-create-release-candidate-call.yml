@@ -37,7 +37,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build and publish release candidate package
-        uses: ./.github/actions/helm/helm-publish/
+        uses: trifork/cheetah-infrastructure-utils-workflows/.github/actions/helm/helm-publish@main
         with:
           package-suffix: "RC${{github.run_number}}"
           PAT: ${{ secrets.PAT }}

@@ -37,7 +37,7 @@ jobs:
 
       - name: Build and release package
         id: build-and-release
-        uses: ./.github/actions/helm/helm-publish/
+        uses: trifork/cheetah-infrastructure-utils-workflows/.github/actions/helm/helm-publish@main
         with:
           PAT: ${{ secrets.PAT }}
           package-suffix: ""
@@ -56,7 +56,7 @@ jobs:
           files: checksum.txt
 
       - name: Bump version
-        uses: ./.github/actions/versioning/bump-version/
+        uses: trifork/cheetah-infrastructure-utils-workflows/.github/actions/versioning/bump-version@main
         with:
           file-path: ./charts/${{ inputs.helm-chart}}/Chart.yaml
           prefix: "version: "

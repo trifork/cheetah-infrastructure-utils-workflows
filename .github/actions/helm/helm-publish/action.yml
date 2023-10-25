@@ -58,11 +58,11 @@ runs:
         USERNAME: ${{ github.repository_owner }}
 
     - name: Add suffix
-      uses: ./.github/actions/versioning/bump-version/
+      uses: trifork/cheetah-infrastructure-utils-workflows/.github/actions/versioning/bump-version@main
       with:
         file-path: ./charts/${{ inputs.chart}}/Chart.yaml
-        prefix: 'version: '
-        bump-type: 'none'
+        prefix: "version: "
+        bump-type: "none"
         project-version-suffix: ${{ inputs.package-suffix }}
 
     - name: Package Helm Chart
@@ -75,7 +75,7 @@ runs:
       if: ${{inputs.package-suffix != ''}}
       shell: bash
       run: |
-           helm push ./${{ steps.chart.outputs.name }}-${{steps.chart.outputs.version}}-${{inputs.package-suffix}}.tgz oci://ghcr.io/${GITHUB_REPOSITORY}
+        helm push ./${{ steps.chart.outputs.name }}-${{steps.chart.outputs.version}}-${{inputs.package-suffix}}.tgz oci://ghcr.io/${GITHUB_REPOSITORY}
       env:
         GH_TOKEN: ${{ inputs.PAT }}
 
@@ -83,6 +83,6 @@ runs:
       if: ${{inputs.package-suffix == ''}}
       shell: bash
       run: |
-           helm push ./${{ steps.chart.outputs.name }}-${{steps.chart.outputs.version}}.tgz oci://ghcr.io/${GITHUB_REPOSITORY}
+        helm push ./${{ steps.chart.outputs.name }}-${{steps.chart.outputs.version}}.tgz oci://ghcr.io/${GITHUB_REPOSITORY}
       env:
         GH_TOKEN: ${{ inputs.PAT }}

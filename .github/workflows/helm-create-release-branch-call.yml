@@ -33,7 +33,7 @@ jobs:
 
       - name: Bump major version
         if: ${{inputs.bump-type == 'major'}}
-        uses: ./.github/actions/versioning/bump-version/
+        uses: trifork/cheetah-infrastructure-utils-workflows/.github/actions/versioning/bump-version@main
         with:
           file-path: ./charts/${{ inputs.helm-chart }}/Chart.yaml
           prefix: "version: "
@@ -46,13 +46,13 @@ jobs:
           echo "App Version - ${{ steps.chart.outputs.appVersion }}"
 
       - name: Create release branch
-        uses: ./.github/actions/versioning/create-release-branch/
+        uses: trifork/cheetah-infrastructure-utils-workflows/.github/actions/versioning/create-release-branch@main
         with:
           release-version: ${{steps.chart.outputs.version}}
           project-name: ${{steps.chart.outputs.name}}
 
       - name: Bump version
-        uses: ./.github/actions/versioning/bump-version/
+        uses: trifork/cheetah-infrastructure-utils-workflows/.github/actions/versioning/bump-version@main
         with:
           file-path: ./charts/${{ inputs.helm-chart}}/Chart.yaml
           prefix: "version: "
