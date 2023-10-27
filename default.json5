@@ -97,6 +97,7 @@
             ],
             "recreateWhen": "always"
         },
+        /*
         {
             //-----------------------------------------------------------------------------------------//
             //Settings for digest updates. This is a special case, where we want to update the sha of a dependency, but not the version, however this might not be ideal with all dependencies.
@@ -117,6 +118,7 @@
             "recreateWhen": "always",
             "automerge": true
         },
+        */
         {
             //-----------------------------------------------------------------------------------------//
             //Settings GitRepository and Kustomization
