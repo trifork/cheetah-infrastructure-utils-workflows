@@ -104,7 +104,7 @@ runs:
 
     - name: Extract metadata (tags, labels) for Docker
       id: meta
-      uses: docker/metadata-action@879dcbb708d40f8b8679d4f7941b938a086e23a7
+      uses: docker/metadata-action@62339db73c56dd749060f65a6ebb93a6e056b755
       with:
         images: ghcr.io/${{ inputs.image_name }}
         labels: |
@@ -119,7 +119,7 @@ runs:
 
     - name: Extract metadata (tags, labels) for Docker
       id: meta-kamstrup
-      uses: docker/metadata-action@879dcbb708d40f8b8679d4f7941b938a086e23a7
+      uses: docker/metadata-action@62339db73c56dd749060f65a6ebb93a6e056b755
       with:
         images: registry.gitlab.com/kamstrup/dataplatform/external-dependencies/${{ steps.replaced.outputs.replaced }}
         labels: |
