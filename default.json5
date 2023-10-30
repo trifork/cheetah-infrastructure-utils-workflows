@@ -22,6 +22,9 @@
         "after 12pm every weekday",
         "before 4pm every weekday"
     ],
+    "digest": { 
+        "enabled": false 
+    },
     "vulnerabilityAlerts": {
         "prTitle": "fix(deps): [VULNERABILITY] update {{depName}} from {{currentVersion}} to {{newVersion}}",
         "addLabels": [
