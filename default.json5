@@ -2,8 +2,7 @@
     //Settings that can apply to every repository
     "extends": [
         "config:recommended",
-        "docker:enableMajor",
-        "docker:pinDigests"
+        "docker:enableMajor"
     ],
     // If Renovate has already made a pull request, it will not update the labels on said pr, even if changes are made. These labels will only be appended on future pr's.
     "labels": [
