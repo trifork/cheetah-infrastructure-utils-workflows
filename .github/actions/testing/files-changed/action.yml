@@ -1,0 +1,25 @@
+name: Check for changed files
+description: Outputs true if files in specified folders has changed
+
+inputs:
+  path-to-check:
+    description: "list of paths to check for changed files"
+    required: false
+    default: "src/*"
+
+outputs:
+  check-files-changed:
+    description: Whether the files in specifed folders has changed
+    value: ${{ steps.changed-files.outputs.any_changed }}
+
+runs:
+  using: composite
+  steps:
+    - name: Get changed files
+      id: changed-files
+      uses: tj-actions/changed-files@v40
+      with:
+        files: ${{ inputs.path-to-check }}
+
+
+  
