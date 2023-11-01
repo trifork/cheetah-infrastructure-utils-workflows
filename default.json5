@@ -1,348 +1,353 @@
 {
-    //Settings that can apply to every repository
-    "extends": [
-        "config:recommended",
-        "docker:enableMajor"
+  //Settings that can apply to every repository
+  "extends": [
+    "config:recommended",
+    "docker:enableMajor"
+  ],
+  // These labels lie outside of "packageRules" and will be appended to all PR's, no matter the type.
+  // If Renovate has already made a pull request, it will not update the labels on said pr, even if changes are made. These labels will only be appended on future pr's.
+  "labels": [
+    "dependencies",
+    "automated-pr"
+  ],
+  "configMigration": true,
+  //Schedule for renovate
+  "timezone": "Europe/Copenhagen",
+  "minimumReleaseAge": "3 days",
+  "schedule": [
+    "before 5am every weekday",
+    "every sunday"
+  ],
+  "digest": { 
+    "enabled": false 
+  },
+  "automergeSchedule": [
+    "after 12pm every weekday",
+    "before 4pm every weekday"
+  ],
+  "vulnerabilityAlerts": {
+    "prTitle": "fix(deps): [VULNERABILITY] update {{depName}} from {{currentVersion}} to {{newVersion}}",
+    "addLabels": [
+      "vulnerability"
     ],
-    // If Renovate has already made a pull request, it will not update the labels on said pr, even if changes are made. These labels will only be appended on future pr's.
-    "labels": [
+    "additionalBranchPrefix": [
+      ""
+    ]
+  },
+  "rebaseWhen": "auto",
+  //Disables automerge globally, but can be overwritten in packageRules or in a different repository
+  "automerge": false,
+  "packageRules": [
+    {
+      //-----------------------------------------------------------------------------------------//
+      //Settings for all patch updates. These are grouped by datasource. e.g. maven/.net/python.
+      //-----------------------------------------------------------------------------------------//
+      "prTitle": "fix(deps): update all {{datasource}} patches",
+      "groupName": "patches",
+      "matchPackagePatterns": [
+        "*"
+      ],
+      "matchUpdateTypes": [
+        "patch"
+      ],
+      "addLabels": [
+        "patch-updates"
+      ],
+      "additionalBranchPrefix": [
+        "all-{{datasource}}-"
+      ],
+      "recreateWhen": "always",
+      "automerge": true
+    },
+    {
+      //-----------------------------------------------------------------------------------------//
+      //Settings for major updates
+      //-----------------------------------------------------------------------------------------//
+      "prTitle": "fix(deps): major update {{depName}} from {{currentVersion}} to {{newVersion}}",
+      //Match every dependency
+      "matchPackagePatterns": [
+        "*"
+      ],
+      //Specify which kind of update
+      "matchUpdateTypes": [
+        "major"
+      ],
+      //Branch prefix on renovates created branches it uses to merge with
+      "additionalBranchPrefix": [
+        "major-"
+      ],
+      // Labels specific for major pull requests
+      "addLabels": [
+        "major-update",
+        "e2e-test"
+      ]
+    },
+    {
+      //-----------------------------------------------------------------------------------------//
+      //Settings minor updates
+      //-----------------------------------------------------------------------------------------//
+      "prTitle": "fix(deps): update all {{datasource}} minor",
+      "groupName": "minor",
+      "matchPackagePatterns": [
+        "*"
+      ],
+      "matchUpdateTypes": [
+        "minor"
+      ],
+      "addLabels": [
+        "minor-updates"
+      ],
+      "additionalBranchPrefix": [
+        "all-{{datasource}}-"
+      ],
+      "recreateWhen": "always"
+    },
+    /*
+    {
+      //-----------------------------------------------------------------------------------------//
+      //Settings for digest updates. This is a special case, where we want to update the sha of a dependency, but not the version, however this might not be ideal with all dependencies.
+      // For now automerge has been enabled, but this might be changed in the future.
+      // NOTE:
+      // Renovate is unable to detect the sha of a digest update in the prTitle. It can only detect major/minor/patch e.g. 1.0.0 -> 2.1.1 - This means that automerging might have some issues and therefore "recreateWhen" has been set to "always" to see if this fixes the issue.
+      // https://docs.renovatebot.com/docker/#digest-pinning slight overview of why we might want to enable digest updates + automerge in the future.
+      //-----------------------------------------------------------------------------------------//
+      "prTitle": "fix(deps): digest update {{depName}}",
+      "matchPackagePatterns": [
+        "*"
+      ],
+      "matchUpdateTypes": [
+        "digest"
+      ],
+      "addLabels": [
+        "digest-update"
+      ],
+      "recreateWhen": "always",
+      "automerge": true
+    },
+    */
+    {
+      //-----------------------------------------------------------------------------------------//
+      //Settings GitRepository and Kustomization
+      //-----------------------------------------------------------------------------------------//
+      "prTitle": "fix(deps): update {{depName}} from {{currentVersion}} to {{newVersion}}",
+      "matchPackageNames": [
+        "GitRepository",
+        "Kustomization"
+      ],
+      "automerge": false,
+      "addLabels": [
+        "{{depName}}"
+      ],
+      "additionalBranchPrefix": [
+        "{{depName}}-"
+      ]
+    },
+    {
+      //-----------------------------------------------------------------------------------------//
+      //Settings for Flink.
+      //These settings allows Renovate to create PR's for flink updates. 
+      //These should always be handled manually.
+      //-----------------------------------------------------------------------------------------//
+      "prTitle": "fix(deps): update all flink",
+      "matchPackagePatterns": [
+        "flink"
+      ],
+      "groupName": "flink",
+      "automerge": false,
+      "labels": [
+        "dependencies",
+        "automated-pr",
+        "blocked"
+      ],
+      "additionalBranchPrefix": [
+        "flink-"
+      ],
+      "recreateWhen": "always"
+    },
+    {
+      //-----------------------------------------------------------------------------------------//
+      //Settings for connectors
+      //These should be handled manually.
+      //-----------------------------------------------------------------------------------------//
+      "prTitle": "fix(deps): update {{depName}} from {{currentVersion}} to {{newVersion}}",
+      "matchDepPatterns": [
+        "connector"
+      ],
+      "automerge": false,
+      "labels": [
+        "dependencies",
+        "automated-pr",
+        "blocked"
+      ],
+      "additionalBranchPrefix": [
+        "{{depName}}-"
+      ]
+    },
+    {
+      //-----------------------------------------------------------------------------------------//
+      //Settings for Opensearch
+      //These should be handled manually.
+      //-----------------------------------------------------------------------------------------//
+      "prTitle": "fix(deps): update {{depName}} from {{currentVersion}} to {{newVersion}}",
+      "matchPackagePatterns": [
+        "opensearch"
+      ],
+      "additionalBranchPrefix": [
+        "{{depName}}-"
+      ],
+      "labels": [
+        "dependencies",
+        "automated-pr",
+        "blocked"
+      ]
+    },
+    {
+      //-----------------------------------------------------------------------------------------//
+      //Settings for Kafka
+      //These should be handled manually.
+      //-----------------------------------------------------------------------------------------//
+      "prTitle": "fix(deps): update {{depName}} from {{currentVersion}} to {{newVersion}}",
+      "matchPackagePatterns": [
+        "kafka"
+      ],
+      "additionalBranchPrefix": [
+        "{{depName}}-"
+      ],
+      "labels": [
+        "dependencies",
+        "automated-pr",
+        "blocked"
+      ]
+    },
+    {
+      //-----------------------------------------------------------------------------------------//
+      //Settings for dependencies from Kafka, Flink and Opensearch which shouldn't have the Blocked label
+      //These are dependencies we want to update even though they come from important packages
+      //Specific package names can be included in the array below
+      //-----------------------------------------------------------------------------------------//
+      "prTitle": "fix(deps): update {{depName}} from {{currentVersion}} to {{newVersion}}",
+      "matchPackageNames": [
+        "io.confluent:kafka-avro-serializer",
+        "io.strimzi:kafka-oauth-client",
+        "org.opensearch.client:opensearch-rest-high-level-client",
+        "org.opensearch:opensearch"
+      ],
+      "additionalBranchPrefix": [
+        "{{depName}}-"
+      ],
+      "labels": [
         "dependencies",
         "automated-pr"
-    ],
-    "configMigration": true,
-    //Schedule for renovate
-    "timezone": "Europe/Copenhagen",
-    "minimumReleaseAge": "3 days",
-    "schedule": [
-        "before 5am every weekday",
-        "every sunday"
-    ],
-    "automergeSchedule": [
-        "after 12pm every weekday",
-        "before 4pm every weekday"
-    ],
-    "digest": { 
-        "enabled": false 
+      ]
     },
-    "vulnerabilityAlerts": {
-        "prTitle": "fix(deps): [VULNERABILITY] update {{depName}} from {{currentVersion}} to {{newVersion}}",
-        "addLabels": [
-            "vulnerability"
-        ],
-        "additionalBranchPrefix": [
-            ""
-        ]
+    {
+      //-----------------------------------------------------------------------------------------//
+      //Settings for Cheetah deps. This matches any packages with "Cheetah" in it
+      //-----------------------------------------------------------------------------------------//
+      "prTitle": "fix(deps): update {{depName}} from {{currentVersion}} to {{newVersion}}",
+      //Match every dependency
+      "matchPackagePatterns": [
+        "Cheetah",
+        "cheetah"
+      ],
+      "additionalBranchPrefix": [
+        "{{depName}}-"
+      ]
     },
-    "rebaseWhen": "auto",
-    //Disables automerge globally, but can be overwritten in packageRules or in a different repository
-    "automerge": false,
-    "packageRules": [
-        {
-            //-----------------------------------------------------------------------------------------//
-            //Settings for all patch updates. These are grouped by datasource. e.g. maven/.net/python.
-            //-----------------------------------------------------------------------------------------//
-            "prTitle": "fix(deps): update all {{datasource}} patches",
-            "groupName": "patches",
-            "matchPackagePatterns": [
-                "*"
-            ],
-            "matchUpdateTypes": [
-                "patch"
-            ],
-            "addLabels": [
-                "patch-updates"
-            ],
-            "additionalBranchPrefix": [
-                "all-{{datasource}}-"
-            ],
-            "recreateWhen": "always",
-            "automerge": "true"
-        },
-        {
-            //-----------------------------------------------------------------------------------------//
-            //Settings for major updates
-            //-----------------------------------------------------------------------------------------//
-            "prTitle": "fix(deps): major update {{depName}} from {{currentVersion}} to {{newVersion}}",
-            //Match every dependency
-            "matchPackagePatterns": [
-                "*"
-            ],
-            //Specify which kind of update
-            "matchUpdateTypes": [
-                "major"
-            ],
-            //Branch prefix on renovates created branches it uses to merge with
-            "additionalBranchPrefix": [
-                "major-"
-            ],
-            // Labels specific for major pull requests
-            "addLabels": [
-                "major-update",
-                "e2e-test"
-            ]
-        },
-        {
-            //-----------------------------------------------------------------------------------------//
-            //Settings minor updates
-            //-----------------------------------------------------------------------------------------//
-            "prTitle": "fix(deps): update all {{datasource}} minor",
-            "groupName": "minor",
-            "matchPackagePatterns": [
-                "*"
-            ],
-            "matchUpdateTypes": [
-                "minor"
-            ],
-            "addLabels": [
-                "minor-updates"
-            ],
-            "additionalBranchPrefix": [
-                "all-{{datasource}}-"
-            ],
-            "recreateWhen": "always"
-        },
-        /*
-        {
-            //-----------------------------------------------------------------------------------------//
-            //Settings for digest updates. This is a special case, where we want to update the sha of a dependency, but not the version, however this might not be ideal with all dependencies.
-            // For now automerge has been enabled, but this might be changed in the future.
-            // NOTE:
-            // Renovate is unable to detect the sha of a digest update in the prTitle. It can only detect major/minor/patch e.g. 1.0.0 -> 2.1.1 - This means that automerging might have some issues and therefore "recreateWhen" has been set to "always" to see if this fixes the issue.
-            //-----------------------------------------------------------------------------------------//
-            "prTitle": "fix(deps): digest update {{depName}}",
-            "matchPackagePatterns": [
-                "*"
-            ],
-            "matchUpdateTypes": [
-                "digest"
-            ],
-            "addLabels": [
-                "digest-update"
-            ],
-            "recreateWhen": "always",
-            "automerge": true
-        },
-        */
-        {
-            //-----------------------------------------------------------------------------------------//
-            //Settings GitRepository and Kustomization
-            //-----------------------------------------------------------------------------------------//
-            "prTitle": "fix(deps): update {{depName}} from {{currentVersion}} to {{newVersion}}",
-            "matchPackageNames": [
-                "GitRepository",
-                "Kustomization"
-            ],
-            "automerge": false,
-            "addLabels": [
-                "{{depName}}"
-            ],
-            "additionalBranchPrefix": [
-                "{{depName}}-"
-            ]
-        },
-        {
-            //-----------------------------------------------------------------------------------------//
-            //Settings for Flink.
-            //These settings allows Renovate to create PR's for flink updates. 
-            //These should always be handled manually.
-            //-----------------------------------------------------------------------------------------//
-            "prTitle": "fix(deps): update all flink",
-            "matchPackagePatterns": [
-                "flink"
-            ],
-            "groupName": "flink",
-            "automerge": false,
-            "labels": [
-                "dependencies",
-                "automated-pr",
-                "blocked"
-            ],
-            "additionalBranchPrefix": [
-                "flink-"
-            ],
-            "recreateWhen": "always"
-        },
-        {
-            //-----------------------------------------------------------------------------------------//
-            //Settings for connectors
-            //These should be handled manually.
-            //-----------------------------------------------------------------------------------------//
-            "prTitle": "fix(deps): update {{depName}} from {{currentVersion}} to {{newVersion}}",
-            "matchDepPatterns": [
-                "connector"
-            ],
-            "automerge": false,
-            "labels": [
-                "dependencies",
-                "automated-pr",
-                "blocked"
-            ],
-            "additionalBranchPrefix": [
-                "{{depName}}-"
-            ]
-        },
-        {
-            //-----------------------------------------------------------------------------------------//
-            //Settings for Opensearch
-            //These should be handled manually.
-            //-----------------------------------------------------------------------------------------//
-            "prTitle": "fix(deps): update {{depName}} from {{currentVersion}} to {{newVersion}}",
-            "matchPackagePatterns": [
-                "opensearch"
-            ],
-            "additionalBranchPrefix": [
-                "{{depName}}-"
-            ],
-            "labels": [
-                "dependencies",
-                "automated-pr",
-                "blocked"
-            ]
-        },
-        {
-            //-----------------------------------------------------------------------------------------//
-            //Settings for Kafka
-            //These should be handled manually.
-            //-----------------------------------------------------------------------------------------//
-            "prTitle": "fix(deps): update {{depName}} from {{currentVersion}} to {{newVersion}}",
-            "matchPackagePatterns": [
-                "kafka"
-            ],
-            "additionalBranchPrefix": [
-                "{{depName}}-"
-            ],
-            "labels": [
-                "dependencies",
-                "automated-pr",
-                "blocked"
-            ]
-        },
-        {
-            //-----------------------------------------------------------------------------------------//
-            //Settings for dependencies from Kafka, Flink and Opensearch which shouldn't have the Blocked label
-            //These are dependencies we want to update even though they come from important packages
-            //Specific package names can be included in the array below
-            //-----------------------------------------------------------------------------------------//
-            "prTitle": "fix(deps): update {{depName}} from {{currentVersion}} to {{newVersion}}",
-            "matchPackageNames": [
-                "io.confluent:kafka-avro-serializer",
-                "io.strimzi:kafka-oauth-client",
-                "org.opensearch.client:opensearch-rest-high-level-client",
-                "org.opensearch:opensearch"
-            ],
-            "additionalBranchPrefix": [
-                "{{depName}}-"
-            ],
-            "labels": [
-                "dependencies",
-                "automated-pr"
-            ]
-        },
-        {
-            //-----------------------------------------------------------------------------------------//
-            //Settings for Cheetah deps. This matches any packages with "Cheetah" in it
-            //-----------------------------------------------------------------------------------------//
-            "prTitle": "fix(deps): update {{depName}} from {{currentVersion}} to {{newVersion}}",
-            //Match every dependency
-            "matchPackagePatterns": [
-                "Cheetah",
-                "cheetah"
-            ],
-            "additionalBranchPrefix": [
-                "{{depName}}-"
-            ]
-        },
-        //-----------------------------------------------------------------------------------------//
-        //Settings which dont fit within a specific grouping. These have all been taken from previous renovate files. It's possible that many of these settings could be excluded.
-        //-----------------------------------------------------------------------------------------//
-        {
-            "matchSourceUrls": [
-                "https://github.com/yarnpkg/berry"
-            ],
-            "enabled": false
-        },
-        {
-            "matchDatasources": [
-                "docker"
-            ],
-            "registryUrls": [
-                "https://registry.hub.docker.com"
-            ]
-        },
-        {
-            // disables npm updates on all repositories
-            "matchDatasources": [
-                "npm"
-            ],
-            "enabled": false
-        },
-        // Settings taken from charts-repo
-        {
-            "matchFileNames": [
-                ".devcontainer/**"
-            ],
-            // This used to be set to true but has been disabled for now.
-            "automerge": false
-        },
-        {
-            "matchDatasources": [
-                "helm"
-            ],
-            "excludeDepNames": [
-                "weave-gitops"
-            ]
-        },
-        {
-            "matchPackageNames": [
-                "quay.io/kubecost1/kubecost-cost-model"
-            ],
-            "customChangelogUrl": "https://github.com/opencost/opencost/"
-        },
-        {
-            "matchDatasources": [
-                "nuget"
-            ],
-            "registryUrls": [
-                "https://api.nuget.org/v3/index.json",
-                "https://nuget.pkg.github.com/trifork/index.json"
-            ]
-        },
-        {
-            //-----------------------------------------------------------------------------------------//
-            //Settings for javadoc
-            //-----------------------------------------------------------------------------------------//
-            "prTitle": "fix(deps): update {{depName}} from {{currentVersion}} to {{newVersion}}",
-            "matchPackageNames": [
-                "org.apache.maven.plugins:maven-javadoc-plugin"
-            ],
-            "dependencyDashboardApproval": true,
-            "additionalBranchPrefix": [
-                "{{depName}}-"
-            ]
-        },
-        {
-            //-----------------------------------------------------------------------------------------//
-            //Settings for checkstyle
-            //-----------------------------------------------------------------------------------------//
-            "prTitle": "fix(deps): update {{depName}} from {{currentVersion}} to {{newVersion}}",
-            "matchPackageNames": [
-                "com.puppycrawl.tools:checkstyle"
-            ],
-            "prBodyNotes": "Note: match version with docs/flinkDev/ide_setup.md",
-            "dependencyDashboardApproval": true,
-            "additionalBranchPrefix": [
-                "{{depName}}-"
-            ]
-        },
-        {
-            //-----------------------------------------------------------------------------------------//
-            //Settings actions/checkout
-            //-----------------------------------------------------------------------------------------//
-            "matchPackageNames": [
-                "actions/checkout"
-            ],
-            "automerge": true,
-            "recreateWhen": "always"
-        }
-    ]
+    //-----------------------------------------------------------------------------------------//
+    //Settings which dont fit within a specific grouping. These have all been taken from previous renovate files. It's possible that many of these settings could be excluded.
+    //-----------------------------------------------------------------------------------------//
+    {
+      "matchSourceUrls": [
+        "https://github.com/yarnpkg/berry"
+      ],
+      "enabled": false
+    },
+    {
+      "matchDatasources": [
+        "docker"
+      ],
+      "registryUrls": [
+        "https://registry.hub.docker.com"
+      ]
+    },
+    {
+      // disables npm updates on all repositories
+      "matchDatasources": [
+        "npm"
+      ],
+      "enabled": false
+    },
+    {
+      "matchDatasources": [
+        "helm"
+      ],
+      "excludeDepNames": [
+        "weave-gitops"
+      ]
+    },
+    {
+      "matchPackageNames": [
+        "quay.io/kubecost1/kubecost-cost-model"
+      ],
+      "customChangelogUrl": "https://github.com/opencost/opencost/"
+    },
+    {
+      "matchDatasources": [
+        "nuget"
+      ],
+      "registryUrls": [
+        "https://api.nuget.org/v3/index.json",
+        "https://nuget.pkg.github.com/trifork/index.json"
+      ]
+    },
+    {
+      //-----------------------------------------------------------------------------------------//
+      //Settings for kubernetes-api
+      //-----------------------------------------------------------------------------------------//
+      "matchDatasources": [
+        "kubernetes-api"
+      ],
+      "matchPackageNames": [
+        "Receiver"
+      ],
+      "automerge": false
+    },
+    {
+      //-----------------------------------------------------------------------------------------//
+      //Settings for javadoc
+      //-----------------------------------------------------------------------------------------//
+      "prTitle": "fix(deps): update {{depName}} from {{currentVersion}} to {{newVersion}}",
+      "matchPackageNames": [
+        "org.apache.maven.plugins:maven-javadoc-plugin"
+      ],
+      "dependencyDashboardApproval": true,
+      "additionalBranchPrefix": [
+        "{{depName}}-"
+      ]
+    },
+    {
+      //-----------------------------------------------------------------------------------------//
+      //Settings for checkstyle
+      //-----------------------------------------------------------------------------------------//
+      "prTitle": "fix(deps): update {{depName}} from {{currentVersion}} to {{newVersion}}",
+      "matchPackageNames": [
+        "com.puppycrawl.tools:checkstyle"
+      ],
+      "prBodyNotes": "Note: match version with docs/flinkDev/ide_setup.md",
+      "dependencyDashboardApproval": true,
+      "additionalBranchPrefix": [
+        "{{depName}}-"
+      ]
+    },
+    {
+      //-----------------------------------------------------------------------------------------//
+      //Settings for github-tags
+      //-----------------------------------------------------------------------------------------//
+      "matchDatasources": [
+        "github-tags"
+      ],
+      "automerge": true,
+      "recreateWhen": "always"
+    }
 }
