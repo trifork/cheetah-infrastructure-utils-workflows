@@ -350,4 +350,5 @@
       "automerge": true,
       "recreateWhen": "always"
     }
+  }
 }
