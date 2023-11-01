@@ -343,12 +343,19 @@
     {
       //-----------------------------------------------------------------------------------------//
       //Settings for github-tags
+      //Automerges all types of updates for github-tags e.g major/minor/patch/digest
       //-----------------------------------------------------------------------------------------//
+      "prTitle": "fix(deps): update {{depName}} from {{currentVersion}} to {{newVersion}}",
       "matchDatasources": [
         "github-tags"
       ],
+      "matchPackagePatterns": [
+        "*"
+      ],
       "automerge": true,
-      "recreateWhen": "always"
+      "additionalBranchPrefix": [
+        "{{depName}}-"
+      ]
     }
   ]
 }
