@@ -1,6 +1,10 @@
 name: "Restore maven dependencies"
 description: ""
 inputs:
+  working-directory:
+    description: "..."
+    required: false
+    default: "."
   github_actor:
     description: ""
     required: true
@@ -24,6 +28,7 @@ runs:
         settings-path: ./ # location for the settings.xml file
 
     - name: Change scope of Flink dependencies from 'compile' to 'provided'.
+      working-directory: ${{ inputs.working-directory }}
       shell: bash
       run: sed -i pom.xml -e 's,<scope>compile</scope>,<scope>provided</scope>,'
 
@@ -38,6 +43,7 @@ runs:
 
     - name: Restore packages (for caching)
       shell: bash
+      working-directory: ${{ inputs.working-directory }}
       run: mvn dependency:go-offline -B -s ./settings.xml -D"maven.repo.local=${{ inputs.repository-path }}/repository"
       env:
         GITHUB_ACTOR: ${{ inputs.github_actor }}
