@@ -82,7 +82,7 @@ runs:
       id: vars
       run: echo ::set-output name=app_version::${GITHUB_REF#refs/*/v}
 
-    - uses: trifork/cheetah-infrastructure-utils/.github/actions/maven/maven-restore@main
+    - uses: trifork/cheetah-infrastructure-utils-workflows/.github/actions/maven/maven-restore@main
       if: ${{ inputs.settings-path != '' }}
       with:
         settings-path: ${{ inputs.settings-path }} # location for the settings.xml file
@@ -90,7 +90,7 @@ runs:
         read_package_pat: ${{ inputs.read_package_pat }}
 
     - name: Build image
-      uses: trifork/cheetah-infrastructure-utils/.github/actions/build-image/base@main
+      uses: trifork/cheetah-infrastructure-utils-workflows/.github/actions/build-image/base@main
       with:
         read_package_pat: ${{ inputs.read_package_pat }} # we need this, as GITHUB_TOKEN only have permission to its own repo
         gitlab_token: ${{ inputs.gitlab_token }}
