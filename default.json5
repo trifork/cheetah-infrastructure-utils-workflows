@@ -305,6 +305,7 @@
       //-----------------------------------------------------------------------------------------//
       //Settings for kubernetes-api
       //-----------------------------------------------------------------------------------------//
+      "prTitle": "fix(deps): update {{depName}} from {{currentVersion}} to {{newVersion}}",
       "matchDatasources": [
         "kubernetes-api"
       ],
