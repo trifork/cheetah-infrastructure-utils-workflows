@@ -18,8 +18,8 @@
     "before 5am every weekday",
     "every sunday"
   ],
-  "digest": { 
-    "enabled": false 
+  "digest": {
+    "enabled": false
   },
   "automergeSchedule": [
     "after 12pm every weekday",
@@ -254,6 +254,15 @@
         "{{depName}}-"
       ]
     },
+    {
+      //-----------------------------------------------------------------------------------------//
+      //Settings for NPM. This disables npm related updates for all repositories.
+      //-----------------------------------------------------------------------------------------//
+      "matchDatasources": [
+        "npm"
+      ],
+      "enabled": false
+    },
     //-----------------------------------------------------------------------------------------//
     //Settings which dont fit within a specific grouping. These have all been taken from previous renovate files. It's possible that many of these settings could be excluded.
     //-----------------------------------------------------------------------------------------//
@@ -270,13 +279,6 @@
       "registryUrls": [
         "https://registry.hub.docker.com"
       ]
-    },
-    {
-      // disables npm updates on all repositories
-      "matchDatasources": [
-        "npm"
-      ],
-      "enabled": false
     },
     {
       "matchDatasources": [
