@@ -1,0 +1,28 @@
+name: Validate Renovate Bot Config
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - '**.json5'
+  pull_request:
+    branches: ["main"]
+    paths:
+      - '**.json5'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check json syntax
+        uses: limitusus/json-syntax-check@v2
+        with:
+          pattern: "\\.json5$"
+
+      - name: Validate
+        uses: rinchsan/renovate-config-validator@v0.0.12
+        with:
+          pattern: 'renovate.json5' # Regular expression for filename to validate, default to *.json
