@@ -263,46 +263,6 @@
       ],
       "enabled": false
     },
-    //-----------------------------------------------------------------------------------------//
-    //Settings which dont fit within a specific grouping. These have all been taken from previous renovate files. It's possible that many of these settings could be excluded.
-    //-----------------------------------------------------------------------------------------//
-    {
-      "matchSourceUrls": [
-        "https://github.com/yarnpkg/berry"
-      ],
-      "enabled": false
-    },
-    {
-      "matchDatasources": [
-        "docker"
-      ],
-      "registryUrls": [
-        "https://registry.hub.docker.com"
-      ]
-    },
-    {
-      "matchDatasources": [
-        "helm"
-      ],
-      "excludeDepNames": [
-        "weave-gitops"
-      ]
-    },
-    {
-      "matchPackageNames": [
-        "quay.io/kubecost1/kubecost-cost-model"
-      ],
-      "customChangelogUrl": "https://github.com/opencost/opencost/"
-    },
-    {
-      "matchDatasources": [
-        "nuget"
-      ],
-      "registryUrls": [
-        "https://api.nuget.org/v3/index.json",
-        "https://nuget.pkg.github.com/trifork/index.json"
-      ]
-    },
     {
       //-----------------------------------------------------------------------------------------//
       //Settings for kubernetes-api
@@ -358,6 +318,46 @@
       "automerge": true,
       "additionalBranchPrefix": [
         "{{depName}}-"
+      ]
+    },
+    //-----------------------------------------------------------------------------------------//
+    //Settings which dont fit within a specific grouping. These have all been taken from previous renovate files. It's possible that many of these settings could be excluded.
+    //-----------------------------------------------------------------------------------------//
+    {
+      "matchSourceUrls": [
+        "https://github.com/yarnpkg/berry"
+      ],
+      "enabled": false
+    },
+    {
+      "matchDatasources": [
+        "docker"
+      ],
+      "registryUrls": [
+        "https://registry.hub.docker.com"
+      ]
+    },
+    {
+      "matchDatasources": [
+        "helm"
+      ],
+      "excludeDepNames": [
+        "weave-gitops"
+      ]
+    },
+    {
+      "matchPackageNames": [
+        "quay.io/kubecost1/kubecost-cost-model"
+      ],
+      "customChangelogUrl": "https://github.com/opencost/opencost/"
+    },
+    {
+      "matchDatasources": [
+        "nuget"
+      ],
+      "registryUrls": [
+        "https://api.nuget.org/v3/index.json",
+        "https://nuget.pkg.github.com/trifork/index.json"
       ]
     }
   ]
