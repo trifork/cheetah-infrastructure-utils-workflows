@@ -17,15 +17,9 @@ updates:
       - nuget # Allow version updates for dependencies in this registry
     schedule:
       interval: "daily"
-    dependencies:
-      - name: "Cheetah.WebApi.Shared"
-        versions: ["*"]
   - package-ecosystem: "maven"
     directory: "/"
     registries:
       - maven
     schedule:
       interval: "daily"
-    dependencies:
-      - name: "com.trifork.cheetah.processing.cheetah-lib-processing"
-        versions: ["*"]
