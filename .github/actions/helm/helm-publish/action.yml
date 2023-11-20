@@ -53,7 +53,7 @@ runs:
     - name: Configure Helm
       shell: bash
       run: |
-        echo ${{ inputs.PAT }} | docker login ghcr.io -u USERNAME --password-stdin
+        echo ${{ inputs.PAT }} | docker login ghcr.io -u "${USERNAME}" --password-stdin
       env:
         USERNAME: ${{ github.repository_owner }}
 
