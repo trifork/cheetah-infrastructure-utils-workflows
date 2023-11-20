@@ -1,0 +1,31 @@
+version: 2
+registries:
+  nuget: # Define access for a private registry
+    type: nuget-feed
+    url: https://nuget.pkg.github.com/trifork
+    username: cheetahbot
+    password: ${{secrets.NUGET_PASSWORD}}
+  maven:
+    type: maven-repository
+    url: https://maven.pkg.github.com/trifork
+    username: cheetahbot
+    password: ${{secrets.MAVEN_PASSWORD}}
+updates:
+  - package-ecosystem: "nuget"
+    directory: "/"
+    registries:
+      - nuget # Allow version updates for dependencies in this registry
+    schedule:
+      interval: "daily"
+    dependencies:
+      - name: "Cheetah.WebApi.Shared"
+        versions: ["*"]
+  - package-ecosystem: "maven"
+    directory: "/"
+    registries:
+      - maven
+    schedule:
+      interval: "daily"
+    dependencies:
+      - name: "com.trifork.cheetah.processing.cheetah-lib-processing"
+        versions: ["*"]
