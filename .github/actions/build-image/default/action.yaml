@@ -45,6 +45,10 @@ inputs:
     description: Should we upload the image as an artifact
     required: false
     default: "false"
+  target:
+    description: "Sets the target stage to build"
+    required: false
+    default: ""
 
 runs:
   using: "composite"
@@ -68,6 +72,7 @@ runs:
         image_tag: ${{ inputs.image_tag }}
         upload_image: ${{ inputs.upload_image }}
         push_image: ${{ inputs.push_image }}
+        target: ${{ inputs.target }}
         build-args: |
           ENVIRONMENT=${{ inputs.environment }}
           APP_VERSION=${{ steps.vars.outputs.app_version }}

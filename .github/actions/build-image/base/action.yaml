@@ -36,6 +36,10 @@ inputs:
   image_name:
     description: "Name of the image to build"
     required: true
+  target:
+    description: "Sets the target stage to build"
+    required: false
+    default: ""
   # upload
   push_image:
     description: Should we push the image
@@ -116,6 +120,7 @@ runs:
         file: ${{ inputs.dockerfile_path }}
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
+        target: ${{ inputs.target }}
         push: false
         load: true
         cache-from: type=gha
@@ -136,6 +141,7 @@ runs:
         outputs: type=registry
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
+        target: ${{ inputs.target }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
         build-args: ${{ inputs.build-args }}
@@ -154,6 +160,7 @@ runs:
         outputs: type=docker,dest=/tmp/image.tar
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
+        target: ${{ inputs.target }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
         build-args: ${{ inputs.build-args }}
