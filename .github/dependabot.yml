@@ -10,6 +10,11 @@ registries:
     url: https://maven.pkg.github.com/trifork
     username: cheetahbot
     password: ${{secrets.MAVEN_PASSWORD}}
+  docker:
+    type: docker-registry
+    url: ghcr.io
+    username: cheetahbot
+    password: ${{secrets.MAVEN_PASSWORD}}
 updates:
   - package-ecosystem: "nuget"
     directory: "/"
@@ -21,5 +26,11 @@ updates:
     directory: "/"
     registries:
       - maven
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "docker"
+    directory: "/"
+    registries:
+      - docker
     schedule:
       interval: "daily"
