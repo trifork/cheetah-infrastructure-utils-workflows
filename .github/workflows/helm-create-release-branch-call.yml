@@ -22,8 +22,8 @@ jobs:
 
       - name: Configure Git
         run: |
-          git config user.name "$GITHUB_ACTOR"
-          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          git config user.name "cheetahbot"
+          git config user.email "cheetahbot@users.noreply.github.com"
 
       - name: Read Helm Chart
         id: chart
@@ -60,9 +60,6 @@ jobs:
 
       - name: Commit version bump
         run: |
-          git config user.name "${{ github.actor }}"
-          git config user.email "${{ github.actor }}@users.noreply.github.com"
-
           git add ./charts/${{ inputs.helm-chart}}
           git commit -m "Bump minor version to keep snapshot version ahead"
           git push

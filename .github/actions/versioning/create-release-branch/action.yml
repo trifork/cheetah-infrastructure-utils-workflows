@@ -36,8 +36,8 @@ runs:
     - name: Create release branch
       shell: bash
       run: |
-        git config user.name "${{ github.actor }}"
-        git config user.email "${{ github.actor }}@users.noreply.github.com"
+        git config user.name "cheetahbot"
+        git config user.email "cheetahbot@users.noreply.github.com"
 
         git checkout -b ${{ steps.get-release-branch-name.outputs.release-branch-name }}
         git commit --allow-empty -am "Create new release branch ${{ steps.get-release-branch-name.outputs.release-branch-name }}"
