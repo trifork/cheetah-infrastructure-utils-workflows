@@ -359,6 +359,10 @@
         "https://api.nuget.org/v3/index.json",
         "https://nuget.pkg.github.com/trifork/index.json"
       ]
+    },
+    {
+      "matchPackageNames": ["Cheetah.ComponentTest", "com.trifork.cheetah.processing:cheetah-lib-processing", "cheetah-backend-api", "Cheetah.WebApi.Shared"],
+      "automerge": false
     }
   ]
 }
