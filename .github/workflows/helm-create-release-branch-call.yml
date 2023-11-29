@@ -13,6 +13,12 @@ on:
         default: "minor"
         required: false
 
+    secrets:
+      PAT:
+        description: Token that can read/write repo
+        required: true
+
+
 jobs:
   create-release-branch:
     runs-on: ubuntu-latest
@@ -63,7 +69,7 @@ jobs:
         with:
           author: cheetahbot <cheetahbot@users.noreply.github.com>
           committer: cheetahbot <cheetahbot@users.noreply.github.com>
-          token: ${{secrets.GH_TOKEN}}
+          token: ${{secrets.PAT}}
           branch: auto-bump-main
           add-paths: charts/**
           base: main

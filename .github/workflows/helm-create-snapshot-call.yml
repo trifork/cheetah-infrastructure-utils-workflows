@@ -9,7 +9,7 @@ on:
         required: true
     secrets:
       PAT:
-        description: Token to create to publish a release
+        description: Token with read/write packages and repo access
         required: true
 
 jobs:
