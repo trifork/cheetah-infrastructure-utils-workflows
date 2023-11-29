@@ -46,7 +46,7 @@ jobs:
           echo "App Version - ${{ steps.chart.outputs.appVersion }}"
 
       - name: Create release branch
-        uses: trifork/cheetah-infrastructure-utils-workflows/.github/actions/versioning/create-release-branch@main
+        uses: trifork/cheetah-infrastructure-utils-workflows/.github/actions/versioning/create-release-branch-2@main
         with:
           release-version: ${{steps.chart.outputs.version}}
           project-name: ${{steps.chart.outputs.name}}
