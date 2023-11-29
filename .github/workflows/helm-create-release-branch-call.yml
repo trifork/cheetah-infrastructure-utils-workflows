@@ -39,22 +39,6 @@ jobs:
           prefix: "version: "
           bump-type: "major"
 
-      - name: Bump major version README.md
-        if: ${{inputs.bump-type == 'major'}}
-        uses: trifork/cheetah-infrastructure-utils-workflows/.github/actions/versioning/bump-version@main
-        with:
-          file-path: ./charts/${{ inputs.helm-chart }}/README.md
-          prefix: "version: "
-          bump-type: "major"
-
-      - name: Bump major version url README.md
-        if: ${{inputs.bump-type == 'major'}}
-        uses: trifork/cheetah-infrastructure-utils-workflows/.github/actions/versioning/bump-version@main
-        with:
-          file-path: ./charts/${{ inputs.helm-chart }}/README.md
-          prefix: "version-"
-          bump-type: "major"
-
       - name: Read Helm Chart
         id: chart
         uses: jacobtomlinson/gha-read-helm-chart@0.1.3
