@@ -84,14 +84,14 @@ jobs:
         uses: trifork/cheetah-infrastructure-utils-workflows/.github/actions/versioning/bump-version@main
         with:
           file-path: ./charts/${{ inputs.helm-chart}}/README.md
-          prefix: "version: "
+          prefix: "![Version: "
           bump-type: "minor"
 
       - name: Bump version url README.md
         uses: trifork/cheetah-infrastructure-utils-workflows/.github/actions/versioning/bump-version@main
         with:
           file-path: ./charts/${{ inputs.helm-chart}}/README.md
-          prefix: "version-"
+          prefix: "![Version: 0.9.0](https://img.shields.io/badge/Version-"
           bump-type: "minor"
 
       - name: Create pull request to main
