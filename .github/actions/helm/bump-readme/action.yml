@@ -1,0 +1,22 @@
+name: Bump Version
+description: Bumps the version in the given file. Made for Helm charts
+
+inputs:
+  file-path:
+    description: The path to the file with the version
+    required: true
+  version:
+    description: The version of the chart
+    required: false
+
+runs:
+  using: composite
+  steps:
+    - name: Bump version README
+      shell: bash
+      run: |
+        sed -i "s/!\[Version: [0-9]\+\.[0-9]\+\.[0-9]\+\]/\![Version: ${{inputs.version}}\]/" ${{inputs.file-path}}
+        sed -i "s/badge\/Version-[0-9]\+\.[0-9]\+\.[0-9]\+-/badge\/Version-${{inputs.version}}-/" ${{inputs.file-path}}
+        echo "Replacement successful. File saved: ${{inputs.file-path}}"
+        echo "Contents of ${{inputs.file-path}}:"
+        cat ${{inputs.file-path}}

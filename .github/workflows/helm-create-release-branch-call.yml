@@ -74,25 +74,18 @@ jobs:
           project-name: ${{steps.chart.outputs.name}}
 
       - name: Bump version chart.yaml
+        id: bump-version
         uses: trifork/cheetah-infrastructure-utils-workflows/.github/actions/versioning/bump-version@main
         with:
           file-path: ./charts/${{ inputs.helm-chart}}/Chart.yaml
           prefix: "version: "
           bump-type: "minor"
 
-      - name: Bump version README.md
-        uses: trifork/cheetah-infrastructure-utils-workflows/.github/actions/versioning/bump-version@main
+      - name: Bump Readme
+        uses: trifork/cheetah-infrastructure-utils-workflows/.github/actions/helm/bump-readme@main
         with:
           file-path: ./charts/${{ inputs.helm-chart}}/README.md
-          prefix: "![Version: "
-          bump-type: "minor"
-
-      - name: Bump version url README.md
-        uses: trifork/cheetah-infrastructure-utils-workflows/.github/actions/versioning/bump-version@main
-        with:
-          file-path: ./charts/${{ inputs.helm-chart}}/README.md
-          prefix: "![Version: 0.9.0](https://img.shields.io/badge/Version-"
-          bump-type: "minor"
+          version: ${{steps.bump-version.outputs.new-version}}
 
       - name: Create pull request to main
         uses: peter-evans/create-pull-request@v5.0.2
