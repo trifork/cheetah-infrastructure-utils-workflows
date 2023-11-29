@@ -42,7 +42,3 @@ runs:
         git checkout -b ${{ steps.get-release-branch-name.outputs.release-branch-name }}
         git commit --allow-empty -am "Create new release branch ${{ steps.get-release-branch-name.outputs.release-branch-name }}"
         git push --set-upstream origin ${{ steps.get-release-branch-name.outputs.release-branch-name }}
-
-        git checkout ${{ github.ref_name }}
-        git merge ${{ steps.get-release-branch-name.outputs.release-branch-name }}
-        git push
