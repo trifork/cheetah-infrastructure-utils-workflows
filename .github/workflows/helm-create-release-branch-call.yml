@@ -25,12 +25,6 @@ jobs:
           git config user.name "cheetahbot"
           git config user.email "cheetahbot@users.noreply.github.com"
 
-      - name: Read Helm Chart
-        id: chart
-        uses: jacobtomlinson/gha-read-helm-chart@0.1.3
-        with:
-          path: ./charts/${{ inputs.helm-chart}}
-
       - name: Bump major version
         if: ${{inputs.bump-type == 'major'}}
         uses: trifork/cheetah-infrastructure-utils-workflows/.github/actions/versioning/bump-version@main
@@ -38,6 +32,12 @@ jobs:
           file-path: ./charts/${{ inputs.helm-chart }}/Chart.yaml
           prefix: "version: "
           bump-type: "major"
+
+      - name: Read Helm Chart
+        id: chart
+        uses: jacobtomlinson/gha-read-helm-chart@0.1.3
+        with:
+          path: ./charts/${{ inputs.helm-chart}}
 
       - name: Print outputs
         run: |
@@ -58,8 +58,17 @@ jobs:
           prefix: "version: "
           bump-type: "minor"
 
-      - name: Commit version bump
-        run: |
-          git add ./charts/${{ inputs.helm-chart}}
-          git commit -m "Bump minor version to keep snapshot version ahead"
-          git push
+      - name: Create pull request to main
+        uses: peter-evans/create-pull-request@v5.0.2
+        with:
+          author: cheetahbot <cheetahbot@users.noreply.github.com>
+          committer: cheetahbot <cheetahbot@users.noreply.github.com>
+          token: ${{secrets.GH_TOKEN}}
+          branch: auto-bump-main
+          add-paths: charts/**
+          base: main
+          labels: automerge
+          delete-branch: true
+          commit-message: 'Auto bump main'
+          title: bump/main
+
