@@ -17,7 +17,7 @@ inputs:
     required: false
   java-version:
     description: The version of the Java JDK to use
-    default: "11"
+    default: "17"
     required: false
 
 runs:
