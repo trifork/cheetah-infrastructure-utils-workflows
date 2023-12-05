@@ -15,22 +15,20 @@ inputs:
     description: "where maven packages are stored"
     default: ".m2"
     required: false
+  java-version:
+    description: The version of the Java JDK to use
+    default: "11"
+    required: false
 
 runs:
   using: composite
   steps:
-    - name: Set up JDK 11
+    - name: Set up JDK ${{ inputs.java-version }}
       uses: actions/setup-java@v4
       with:
-        java-version: "11"
+        java-version: ${{ inputs.java-version }}
         distribution: "temurin"
-        server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
-        settings-path: ./ # location for the settings.xml file
-
-    - name: Change scope of Flink dependencies from 'compile' to 'provided'.
-      working-directory: ${{ inputs.working-directory }}
-      shell: bash
-      run: sed -i pom.xml -e 's,<scope>compile</scope>,<scope>provided</scope>,'
+        settings-path: ./
 
     - uses: actions/cache/restore@v3
       with:
