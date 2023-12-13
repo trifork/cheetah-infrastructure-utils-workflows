@@ -51,7 +51,8 @@
         "patch"
       ],
       "addLabels": [
-        "patch-updates"
+        "patch-updates",
+        "e2e-test"
       ],
       "additionalBranchPrefix": [
         "all-{{datasource}}-"
@@ -100,7 +101,10 @@
       "additionalBranchPrefix": [
         "all-{{datasource}}-"
       ],
-      "recreateWhen": "always"
+      "recreateWhen": "always",
+      "addLabels": [
+        "e2e-test"
+      ]
     },
     /*
     {
