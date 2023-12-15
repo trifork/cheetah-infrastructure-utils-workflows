@@ -367,8 +367,11 @@
       ]
     },
     {
-      "matchPackagePatterns": ["toolkit.fluxcd.io"],
       "matchPackageNames": ["Cheetah.ComponentTest", "com.trifork.cheetah.processing:cheetah-lib-processing", "cheetah-backend-api", "Cheetah.WebApi.Shared"],
+      "automerge": false
+    }
+    {
+      "matchPackagePatterns": ["toolkit.fluxcd.io"],
       "automerge": false
     }
   ]
