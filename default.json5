@@ -278,7 +278,7 @@
         "kubernetes-api"
       ],
       "matchPackageNames": [
-        "Receiver"
+        "*"
       ],
       "automerge": false
     },
