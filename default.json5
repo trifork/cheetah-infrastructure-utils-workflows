@@ -278,7 +278,11 @@
         "kubernetes", "flux"
       ],
       "matchPackageNames": [
-        "*"
+        "Alert",
+        "HelmRelease",
+        "HelmRepository",
+        "ImageRepository",
+        "Provider"
       ],
       "automerge": false
     },
