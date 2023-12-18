@@ -275,14 +275,10 @@
       //-----------------------------------------------------------------------------------------//
       "prTitle": "fix(deps): update {{depName}} from {{currentVersion}} to {{newVersion}}",
       "matchDatasources": [
-        "kubernetes", "flux"
+        "kubernetes-api"
       ],
-      "matchPackageNames": [
-        "Alert",
-        "HelmRelease",
-        "HelmRepository",
-        "ImageRepository",
-        "Provider"
+      "matchPackagePatterns": [
+        "*"
       ],
       "automerge": false
     },
