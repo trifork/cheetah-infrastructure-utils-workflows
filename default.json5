@@ -58,7 +58,7 @@
         "all-{{datasource}}-"
       ],
       "recreateWhen": "always",
-      "automerge": false
+      "automerge": true
     },
     {
       //-----------------------------------------------------------------------------------------//
