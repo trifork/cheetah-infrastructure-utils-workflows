@@ -371,7 +371,7 @@
       "automerge": false
     },
     {
-      "matchPackagePatterns": ["toolkit.fluxcd.io"],
+      "matchPackagePatterns": ["toolkit.fluxcd.io", "fluxcd"],
       "automerge": false
     }
   ]
