@@ -72,7 +72,7 @@ jobs:
         with:
           author: cheetahbot <cheetahbot@users.noreply.github.com>
           committer: cheetahbot <cheetahbot@users.noreply.github.com>
-          token: ${{secrets.GH_TOKEN}}
+          token: ${{secrets.PAT}}
           branch: auto-bump-patch
           base: ${{github.ref_name}}
           add-paths: charts/**
