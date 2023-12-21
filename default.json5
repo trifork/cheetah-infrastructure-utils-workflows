@@ -96,15 +96,13 @@
         "minor"
       ],
       "addLabels": [
-        "minor-updates"
+        "minor-updates",
+        "e2e-test"
       ],
       "additionalBranchPrefix": [
         "all-{{datasource}}-"
       ],
       "recreateWhen": "always",
-      "addLabels": [
-        "e2e-test"
-      ]
     },
     /*
     {
