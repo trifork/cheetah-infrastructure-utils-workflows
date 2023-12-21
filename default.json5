@@ -325,7 +325,7 @@
       ]
     },
     //-----------------------------------------------------------------------------------------//
-    //Settings which dont fit within a specific grouping. These have all been taken from previous renovate files. It's possible that many of these settings could be excluded.
+    //Settings which dont fit within a specific grouping. Most have  been taken from previous renovate files. It's possible that some of these could be excluded.
     //-----------------------------------------------------------------------------------------//
     {
       "matchSourceUrls": [
@@ -365,14 +365,29 @@
       ]
     },
     {
-      "matchPackageNames": ["Cheetah.ComponentTest", "com.trifork.cheetah.processing:cheetah-lib-processing", "cheetah-backend-api", "Cheetah.WebApi.Shared"],
+      //-----------------------------------------------------------------------------------------//
+      //Settings for cheetah packages
+      //-----------------------------------------------------------------------------------------//
+      "matchPackageNames": [
+        "Cheetah.ComponentTest",
+        "com.trifork.cheetah.processing:cheetah-lib-processing",
+        "cheetah-backend-api",
+        "Cheetah.WebApi.Shared"
+      ],
       "automerge": false
     },
     {
-      "matchPackagePatterns": ["toolkit.fluxcd.io", "fluxcd"],
+      //-----------------------------------------------------------------------------------------//
+      //Settings for flux packages
+      //-----------------------------------------------------------------------------------------//
+      "matchPackagePatterns": [
+        "toolkit.fluxcd.io",
+        "fluxcd"
+      ],
       "automerge": false,
       "matchUpdateTypes": [
-        "major", "minor"
+        "major",
+        "minor"
       ]
     }
   ]
