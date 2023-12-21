@@ -372,7 +372,10 @@
     },
     {
       "matchPackagePatterns": ["toolkit.fluxcd.io", "fluxcd"],
-      "automerge": false
+      "automerge": false,
+      "matchUpdateTypes": [
+        "major", "minor"
+      ]
     }
   ]
 }
