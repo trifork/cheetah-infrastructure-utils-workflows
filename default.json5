@@ -102,7 +102,7 @@
       "additionalBranchPrefix": [
         "all-{{datasource}}-"
       ],
-      "recreateWhen": "always",
+      "recreateWhen": "always"
     },
     /*
     {
