@@ -88,12 +88,13 @@ runs:
           org.opencontainers.image.vendor=Trifork
           org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
         tags: |
-          type=semver,pattern={{version}}
-          type=semver,pattern={{major}}.{{minor}}
-          type=match,pattern=\d+.\d+.\d+
+          type=raw,value=${{ inputs.image_tag }},enable=${{ inputs.image_tag != '' }}
+          type=raw,value=latest,enable={{is_default_branch}}
           type=ref,event=branch,suffix=-${{inputs.github_run_id}}
           type=ref,event=pr
-          type=raw,value=latest,enable={{is_default_branch}}
+          type=ref,event=tag
+          type=semver,pattern={{version}}
+          type=semver,pattern={{major}}.{{minor}}
           
     - name: Extract metadata (tags, labels) for Docker
       id: meta
