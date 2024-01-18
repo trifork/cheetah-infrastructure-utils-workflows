@@ -1,0 +1,29 @@
+name: Get release tag
+description: Gets the release tag using the name of the currently checked out branch
+
+inputs:
+  version:
+    description: The version of the release
+    required: true
+outputs:
+  release-tag:
+    description: The release tag
+    value: ${{ steps.get-release-tag.outputs.release-tag }}
+    
+runs:
+  using: composite
+  steps:
+    - name: Check pull request
+      id: get-release-tag
+      shell: bash
+      run: |
+        ref="${{ github.ref_name }}"
+        ref_without_version=$(echo "$ref" | sed 's/v[0-9]\+\.[0-9]\+$//')
+        echo "ref_without_version=$ref_without_version"
+        ref_without_version_and_release=${ref_without_version#release/}
+        echo "ref_without_version_and_release=$ref_without_version_and_release"
+        ref_without_version_and_release_and_leading_dash=${ref_without_version_and_release#-}
+        echo "ref_without_version_and_release_and_leading_dash=$ref_without_version_and_release_and_leading_dash"
+        release_tag="${ref_without_version_and_release_and_leading_dash}v${{ inputs.version }}"
+
+        echo "release-tag=$release_tag" >> $GITHUB_OUTPUT
