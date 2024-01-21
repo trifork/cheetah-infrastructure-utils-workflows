@@ -30,7 +30,7 @@ runs:
         distribution: "temurin"
         settings-path: ./
 
-    - uses: actions/cache/restore@v3
+    - uses: actions/cache/restore@v4
       with:
         path: ${{ inputs.repository-path }}
         key: setup-java-${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
@@ -47,7 +47,7 @@ runs:
         GITHUB_ACTOR: ${{ inputs.github_actor }}
         GITHUB_TOKEN: ${{ inputs.read_package_pat }}
 
-    - uses: actions/cache/save@v3
+    - uses: actions/cache/save@v4
       with:
         path: ${{ inputs.repository-path }}
         key: setup-java-${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
