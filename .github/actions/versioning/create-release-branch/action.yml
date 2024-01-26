@@ -45,4 +45,3 @@ runs:
 
         git checkout ${{ github.ref_name }}
         git merge ${{ steps.get-release-branch-name.outputs.release-branch-name }}
-        git push
