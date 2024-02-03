@@ -68,7 +68,7 @@ jobs:
           bump-type: "patch"
 
       - name: Create pull request to main
-        uses: peter-evans/create-pull-request@v5.0.2
+        uses: peter-evans/create-pull-request@v6.0.0
         with:
           author: cheetahbot <cheetahbot@users.noreply.github.com>
           committer: cheetahbot <cheetahbot@users.noreply.github.com>
