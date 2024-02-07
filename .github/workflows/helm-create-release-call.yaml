@@ -67,17 +67,8 @@ jobs:
           prefix: "version: "
           bump-type: "patch"
 
-      - name: Create pull request to main
-        uses: peter-evans/create-pull-request@v6.0.0
+      - name: Commit release branch bump
+        uses: EndBug/add-and-commit@v9
         with:
-          author: cheetahbot <cheetahbot@users.noreply.github.com>
-          committer: cheetahbot <cheetahbot@users.noreply.github.com>
-          token: ${{secrets.PAT}}
-          branch: auto-bump-patch
-          base: ${{github.ref_name}}
-          add-paths: charts/**
-          labels: automerge
-          delete-branch: true
-          commit-message: "Bump release branch patch version"
-          title: bump/patch
-
+          commit: -a
+          message: Bump release branch patch version
