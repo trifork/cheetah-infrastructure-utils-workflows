@@ -51,7 +51,7 @@ jobs:
           chart: ${{ inputs.helm-chart }}
 
       - name: Generate Checksum
-        uses: jmgilman/actions-generate-checksum@v1.0.0
+        uses: jmgilman/actions-generate-checksum@v1
         with:
           patterns: "./${{ inputs.helm-chart }}-${{steps.build-and-release.outputs.version}}.tgz"
 
