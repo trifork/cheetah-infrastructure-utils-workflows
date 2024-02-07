@@ -52,7 +52,7 @@ jobs:
           echo "App Version - ${{ steps.chart.outputs.appVersion }}"
 
       - name: Create release branch
-        uses: trifork/cheetah-infrastructure-utils-workflows/.github/actions/versioning/create-release-branch-2@main
+        uses: trifork/cheetah-infrastructure-utils-workflows/.github/actions/versioning/create-release-branch@main
         with:
           release-version: ${{steps.chart.outputs.version}}
           project-name: ${{steps.chart.outputs.name}}
@@ -71,17 +71,8 @@ jobs:
           file-path: ./charts/${{ inputs.helm-chart}}/README.md
           version: ${{steps.bump-version.outputs.new-version}}
 
-      - name: Create pull request to main
-        uses: peter-evans/create-pull-request@v6.0.0
+      - name: Commit minor version bump
+        uses: EndBug/add-and-commit@v9
         with:
-          author: cheetahbot <cheetahbot@users.noreply.github.com>
-          committer: cheetahbot <cheetahbot@users.noreply.github.com>
-          token: ${{secrets.PAT}}
-          branch: auto-bump-main
-          add-paths: charts/**
-          base: main
-          labels: automerge
-          delete-branch: true
-          commit-message: 'Auto bump main'
-          title: bump/main
-
+          commit: -a
+          message: Bump minor version to keep version ahead of all releases
