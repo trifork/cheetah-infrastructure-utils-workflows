@@ -35,6 +35,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_PUSH_PAT || github.token }}
 
       - name: Build and publish release candidate package
         uses: trifork/cheetah-infrastructure-utils-workflows/.github/actions/helm/helm-publish@main
