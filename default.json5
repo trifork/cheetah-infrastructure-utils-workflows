@@ -220,6 +220,11 @@
         "automated-pr",
         "blocked"
       ],
+      "matchUpdateTypes": [
+        "minor",
+        "major",
+        "patch"
+      ],
       "automerge": false
     },
     {
