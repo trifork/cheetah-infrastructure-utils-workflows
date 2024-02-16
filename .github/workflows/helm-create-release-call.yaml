@@ -61,6 +61,7 @@ jobs:
           generate_release_notes: true
           tag_name: ${{inputs.helm-chart}}-v${{ steps.build-and-release.outputs.version }}
           files: checksum.txt
+          target_commitish: ${{ github.ref }}
 
       - name: Bump version
         uses: trifork/cheetah-infrastructure-utils-workflows/.github/actions/versioning/bump-version@main
