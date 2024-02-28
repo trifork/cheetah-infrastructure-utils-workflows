@@ -71,7 +71,7 @@ jobs:
           prefix: "version: "
           bump-type: "patch"
 
-      -  name: bump ReadMe
+      -  name: Bump ReadMe
          uses: trifork/cheetah-infrastructure-utils-workflows/.github/actions/helm/bump-readme@main
          with:
            file-path: ./charts/${{ inputs.helm-chart}}/README.md
