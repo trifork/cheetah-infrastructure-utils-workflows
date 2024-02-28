@@ -35,7 +35,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_PUSH_PAT || github.token }}
+          token: ${{ secrets.PAT || github.token }}
 
       - name: Configure Git
         run: |
@@ -64,11 +64,18 @@ jobs:
           target_commitish: ${{ github.ref }}
 
       - name: Bump version
+        id: bump-version
         uses: trifork/cheetah-infrastructure-utils-workflows/.github/actions/versioning/bump-version@main
         with:
           file-path: ./charts/${{ inputs.helm-chart}}/Chart.yaml
           prefix: "version: "
           bump-type: "patch"
+
+      -  name: bump ReadMe
+         uses: trifork/cheetah-infrastructure-utils-workflows/.github/actions/helm/bump-readme@main
+         with:
+           file-path: ./charts/${{ inputs.helm-chart}}/README.md
+           version: ${{ steps.bump-version.outputs.new-version }}
 
       - name: Commit release branch bump
         uses: EndBug/add-and-commit@v9
