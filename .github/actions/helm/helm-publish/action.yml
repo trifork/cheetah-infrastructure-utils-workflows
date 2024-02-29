@@ -46,7 +46,7 @@ runs:
         echo "description - ${{ steps.chart.outputs.description }}"
 
     - name: Install Helm
-      uses: azure/setup-helm@v3
+      uses: azure/setup-helm@v4
       with:
         token: ${{ inputs.PAT }}
 
