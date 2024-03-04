@@ -229,6 +229,30 @@
     },
     {
       //-----------------------------------------------------------------------------------------//
+      //Various disabled deps
+      //These should be handled manually.
+      //-----------------------------------------------------------------------------------------//
+      "prTitle": "fix(deps): update {{depName}} from {{currentVersion}} to {{newVersion}}",
+      "matchPackagePatterns": [
+        "oaas-observability"
+      ],
+      "additionalBranchPrefix": [
+        "{{depName}}-"
+      ],
+      "labels": [
+        "dependencies",
+        "automated-pr",
+        "blocked"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "major",
+        "patch"
+      ],
+      "automerge": false
+    },
+    {
+      //-----------------------------------------------------------------------------------------//
       //Settings for dependencies from Kafka, Flink and Opensearch which shouldn't have the Blocked label
       //These are dependencies we want to update even though they come from important packages
       //Specific package names can be included in the array below
