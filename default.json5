@@ -369,14 +369,6 @@
     },
     {
       "matchDatasources": [
-        "docker"
-      ],
-      "registryUrls": [
-        "https://registry.hub.docker.com"
-      ]
-    },
-    {
-      "matchDatasources": [
         "helm"
       ],
       "excludeDepNames": [
