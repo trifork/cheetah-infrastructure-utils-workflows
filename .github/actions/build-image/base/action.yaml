@@ -54,6 +54,7 @@ runs:
   using: composite
   steps:
     - name: Set up Docker Buildx
+      id: buildx
       uses: docker/setup-buildx-action@f95db51fddba0c2d1ec667646a06c2ce06100226 # v3
 
     - name: Log in to the Container registry
@@ -123,6 +124,7 @@ runs:
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
         target: ${{ inputs.target }}
+        builder: ${{ steps.buildx.outputs.name }}
         push: false
         load: true
         cache-from: type=gha
@@ -141,6 +143,7 @@ runs:
         file: ${{ inputs.dockerfile_path }}
         push: true
         outputs: type=registry
+        builder: ${{ steps.buildx.outputs.name }}
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
         target: ${{ inputs.target }}
@@ -160,6 +163,7 @@ runs:
         platforms: "linux/amd64" # ${{ inputs.architecture }}
         file: ${{ inputs.dockerfile_path }}
         outputs: type=docker,dest=/tmp/image.tar
+        builder: ${{ steps.buildx.outputs.name }}
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
         target: ${{ inputs.target }}
@@ -178,6 +182,7 @@ runs:
         platforms: ${{ inputs.architecture }}
         file: ${{ inputs.dockerfile_path }}
         push: "true"
+        builder: ${{ steps.buildx.outputs.name }}
         tags: ${{ steps.meta-kamstrup.outputs.tags }}
         labels: ${{ steps.meta-kamstrup.outputs.labels }}
         cache-from: type=gha
