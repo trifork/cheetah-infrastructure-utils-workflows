@@ -59,7 +59,6 @@ inputs:
     description: Should we upload the image as an artifact
     required: false
     default: "false"
-secrets:
   TRIFORK_GITHUB_PAT:
     description: A personal access token with permission to publish a package to the Trifork GitHub container registry
     required: false
