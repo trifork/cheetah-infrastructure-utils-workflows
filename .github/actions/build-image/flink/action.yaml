@@ -96,7 +96,7 @@ runs:
         push_image: ${{ inputs.push_image }}
         upload_image: ${{ inputs.upload_image }}
 
-        TRIFORK_GITHUB_PAT: ${{ secrets.TRIFORK_GITHUB_PAT }}
+        TRIFORK_GITHUB_PAT: ${{ inputs.TRIFORK_GITHUB_PAT }}
 
         build-args: |
           projectFile=${{ inputs.project_path }}
