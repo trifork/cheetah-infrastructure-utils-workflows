@@ -49,7 +49,11 @@ inputs:
     description: Should we upload the image as an artifact
     required: false
     default: "false"
-
+secrets:
+  TRIFORK_GITHUB_PAT:
+    description: A personal access token with permission to publish a package to the Trifork GitHub container registry
+    required: false
+        
 runs:
   using: composite
   steps:
@@ -62,7 +66,7 @@ runs:
       with:
         registry: ghcr.io
         username: ${{ github.actor }}
-        password: ${{ github.token }}
+        password: ${{ secrets.TRIFORK_GITHUB_PAT || github.token }}
 
     - name: Replace trifork in image_name
       id: replaced
