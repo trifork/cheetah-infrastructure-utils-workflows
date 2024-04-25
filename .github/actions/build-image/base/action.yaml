@@ -152,6 +152,7 @@ runs:
         target: ${{ inputs.target }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
+        sbom: true
         build-args: ${{ inputs.build-args }}
         secrets: |
           GITHUB_TOKEN=${{ inputs.read_package_pat }}
@@ -172,6 +173,7 @@ runs:
         target: ${{ inputs.target }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
+        sbom: true
         build-args: ${{ inputs.build-args }}
         secrets: |
           GITHUB_TOKEN=${{ inputs.read_package_pat }}
