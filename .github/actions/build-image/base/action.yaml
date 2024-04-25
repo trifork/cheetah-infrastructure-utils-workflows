@@ -65,7 +65,7 @@ runs:
       with:
         registry: ghcr.io
         username: ${{ github.actor }}
-        password: ${{ secrets.TRIFORK_GITHUB_PAT || github.token }}
+        password: ${{ inputs.TRIFORK_GITHUB_PAT || github.token }}
 
     - name: Replace trifork in image_name
       id: replaced
