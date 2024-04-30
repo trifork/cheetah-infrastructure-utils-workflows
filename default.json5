@@ -20,7 +20,7 @@
   "timezone": "Europe/Copenhagen",
   "minimumReleaseAge": "3 days",
   "schedule": [
-    "after 12am and before 10am every weekday",
+    "after 12am and before 7am every weekday",
     "every sunday"
   ],
   "digest": {
