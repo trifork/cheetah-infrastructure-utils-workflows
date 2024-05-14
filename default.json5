@@ -27,8 +27,7 @@
     "enabled": false
   },
   "automergeSchedule": [
-    "after 12pm every weekday",
-    "before 4pm every weekday"
+    "after 12pm and before 4pm every weekday"
   ],
   "vulnerabilityAlerts": {
     "prTitle": "fix(deps): [VULNERABILITY] update {{depName}} from {{currentVersion}} to {{newVersion}}",
