@@ -45,17 +45,15 @@
   },
   "rebaseWhen": "auto",
   "automerge": false,
+  "ignorePaths": [
+    "**/node_modules/**",
+    "**/bower_components/**",
+    "**/vendor/**",
+    "**/examples/**",
+    "**/__tests__/**",
+    "**/__fixtures__/**"
+  ],
   "packageRules": [
-    {
-      "ignorePaths": [
-        "**/node_modules/**",
-        "**/bower_components/**",
-        "**/vendor/**",
-        "**/examples/**",
-        "**/__tests__/**",
-        "**/__fixtures__/**"
-      ]
-    },
     {
       //-----------------------------------------------------------------------------------------//
       //Settings for all patch updates. These are grouped by datasource. e.g. maven/.net/python.
