@@ -1,7 +1,12 @@
 {
   //Settings that can apply to every repository
   "extends": [
-    "config:recommended",
+    ":dependencyDashboard",
+    ":semanticPrefixFixDepsChoreOthers",
+    "group:monorepos",
+    "group:recommended",
+    "replacements:all",
+    "workarounds:all",
     "docker:enableMajor"
   ],
   // Docker compose file match. Default matches '-compose' so we just scan all yaml files instead
