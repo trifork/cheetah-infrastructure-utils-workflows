@@ -48,6 +48,7 @@
         "**/bower_components/**",
         "**/vendor/**",
         "**/examples/**",
+        "**/__tests__/**",
         "**/__fixtures__/**"
       ]
     },
