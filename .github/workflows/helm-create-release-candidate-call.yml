@@ -15,6 +15,7 @@ on:
 jobs:
   check-branch:
     runs-on: ubuntu-latest
+    timeout-minutes: 2
     steps:
       - name: "Success"
         if: ${{ startsWith(github.ref_name, 'release/') }}
@@ -30,6 +31,7 @@ jobs:
 
   create-release-candidate:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     needs: check-branch
 
     steps:
