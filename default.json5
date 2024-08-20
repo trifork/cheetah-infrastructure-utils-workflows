@@ -44,7 +44,6 @@
     ]
   },
   "rebaseWhen": "auto",
-  //Disables automerge globally, but can be overwritten in packageRules or in a different repository
   "automerge": false,
   "packageRules": [
     {
