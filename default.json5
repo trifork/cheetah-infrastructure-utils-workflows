@@ -434,6 +434,6 @@
       matchDatasources: ["docker"],
       matchPackageNames: ["quay.io/strimzi/kafka"],
       versioning: "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-kafka-(?<kafkaVersion>\\d+\\.\\d+\\.\\d+)$"
-    }
+    },
   ]
 }
