@@ -429,6 +429,19 @@
     },
     {
       //-----------------------------------------------------------------------------------------//
+      //Disable dotnet sdk patches
+      //-----------------------------------------------------------------------------------------//
+      "prTitle": "fix(deps): update {{depName}} from {{currentVersion}} to {{newVersion}}",
+      "matchPackageNames": [
+        "dotnet-sdk"
+      ],
+      "matchUpdateTypes": [
+        "patch"
+      ],
+      "enabled": false
+    },
+    {
+      //-----------------------------------------------------------------------------------------//
       //Custom versioning for quay.io/strimzi/kafka:x-kafka-x 
       //-----------------------------------------------------------------------------------------//
       "matchDatasources": ["docker"],
