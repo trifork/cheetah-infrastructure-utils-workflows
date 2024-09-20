@@ -454,7 +454,7 @@
       //-----------------------------------------------------------------------------------------//
       "matchDatasources": ["docker"],
       "matchPackageNames": ["apicurio/apicurio-registry-kafkasql"],
-      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(?:\\.(?<label>\\w+))?$"
+      "versioning": "regex:^.*?:(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)(?:\\.\w+)?$"
     },
     {
       //-----------------------------------------------------------------------------------------//
