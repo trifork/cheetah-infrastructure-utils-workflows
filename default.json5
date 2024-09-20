@@ -453,7 +453,7 @@
       // Custom versioning for apicurio/apicurio-registry-kafkasql:x.x.x(.Final)
       //-----------------------------------------------------------------------------------------//
       "matchDatasources": ["docker"],
-      "matchPackageNames": ["apicurio-registry-kafkasql"],
+      "matchPackageNames": ["apicurio/apicurio-registry-kafkasql"],
       "versioning": "regex:^apicurio-registry-kafkasql:(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)(?:\.Final)?$"
     },
     {
