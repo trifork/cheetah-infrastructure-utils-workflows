@@ -448,12 +448,11 @@
       "matchPackageNames": ["quay.io/strimzi/kafka"],
       "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-kafka-(?<kafkaVersion>\\d+\\.\\d+\\.\\d+)$"
     },
-    {
+      //-----------------------------------------------------------------------------------------//
+      // Custom versioning for apicurio/apicurio-registry-kafkasql:x.x.x(.Final)
+      //-----------------------------------------------------------------------------------------//
       "matchPackageNames": ["apicurio/apicurio-registry-kafkasql"],
-      "versioning": "regex",
-      "versioningRegex": "^([^:]+):(\\d+)\\.(\\d+)\\.(\\d+)(?:\\.Final)?$",
-      "versioningTemplate": "${1}:${2}.${3}.${4}"
-    },
+      "versioning": "regex:^.*?:(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)(?:\\.\w+)?$"
     {
       //-----------------------------------------------------------------------------------------//
       //Allow go updates 
