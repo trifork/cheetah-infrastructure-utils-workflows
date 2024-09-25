@@ -174,8 +174,7 @@
       "automerge": false,
       "labels": [
         "dependencies",
-        "automated-pr",
-        "blocked"
+        "automated-pr"
       ],
       "additionalBranchPrefix": [
         "flink-"
@@ -194,8 +193,7 @@
       "automerge": false,
       "labels": [
         "dependencies",
-        "automated-pr",
-        "blocked"
+        "automated-pr"
       ],
       "additionalBranchPrefix": [
         "{{depName}}-"
@@ -215,8 +213,7 @@
       ],
       "labels": [
         "dependencies",
-        "automated-pr",
-        "blocked"
+        "automated-pr"
       ]
     },
     {
@@ -233,8 +230,7 @@
       ],
       "labels": [
         "dependencies",
-        "automated-pr",
-        "blocked"
+        "automated-pr"
       ],
       "matchUpdateTypes": [
         "minor",
@@ -257,8 +253,7 @@
       ],
       "labels": [
         "dependencies",
-        "automated-pr",
-        "blocked"
+        "automated-pr"
       ],
       "matchUpdateTypes": [
         "minor",
