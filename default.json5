@@ -13,17 +13,17 @@
     {
       "hostType": "docker",
       "matchHost": "ghcr.io",
-      "token": "{{ secrets.RENOVATE_TOKEN }}"
+      "token": "{{ RENOVATE_TOKEN }}"
     },
     {
       "hostType": "maven",
       "matchHost": "https://maven.pkg.github.com",
-      "token": "{{ secrets.RENOVATE_TOKEN }}"
+      "token": "{{ RENOVATE_TOKEN }}"
     },
     {
       "hostType": "nuget",
       "matchHost": "https://nuget.pkg.github.com",
-      "token": "{{ secrets.RENOVATE_TOKEN }}"
+      "token": "{{ RENOVATE_TOKEN }}"
     }
   ],
   // Docker compose file match. Default matches '-compose' so we just scan all yaml files instead
