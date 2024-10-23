@@ -256,18 +256,18 @@ runs:
             exit 1
           fi
 
-          result=$(yq '.[] | select(.name == "${{ inputs.repo-name }}") | .items[] | select(.name == "v${{ input.version }}") | .name' "$YAML_PATH")
+          result=$(yq '.[] | select(.name == "${{ inputs.repo-name }}") | .items[] | select(.name == "v${{ inputs.version }}") | .name' "$YAML_PATH")
 
 
           if [ -z "$result" ]; then
             yq eval '
               .[] |= (
                 select(.name == "${{ inputs.repo-name }}") |=
-                  (.items |= [{"name": "v${{ input.version }}", "href": "charts/${{ inputs.repo-name }}/v${{ input.version }}/README.md"}] + .)
+                  (.items |= [{"name": "v${{ inputs.version }}", "href": "charts/${{ inputs.repo-name }}/v${{ inputs.version }}/README.md"}] + .)
               )
             ' -i "$YAML_PATH"
           else
-            echo "Version v${{ input.version }} found, skipping"
+            echo "Version v${{ inputs.version }} found, skipping"
           fi
           cat $YAML_PATH
 
