@@ -463,6 +463,11 @@
       //-----------------------------------------------------------------------------------------//
       "matchDatasources": ["golang-version"],
       "rangeStrategy": "bump"
+    },
+    {
+      // Ignore dotnet version 9
+      "matchPackagePatterns": ["dotnet"],
+      "allowedVersions": "<9.0 || >9.0"
     }
   ]
 }
