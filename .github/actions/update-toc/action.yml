@@ -237,7 +237,7 @@ runs:
           fi
           cat $YAML_PATH
 
-    - name: Update YAML file for cheetah-lib-templates-java
+    - name: Update YAML file for cheetah-charts
       if: ${{ github.repository == 'trifork/cheetah-charts' }}
       shell: bash
       run: |
@@ -256,18 +256,18 @@ runs:
             exit 1
           fi
 
-          result=$(yq '.[] | select(.name == "${{ inputs.repo-name }}") | .items[] | select(.name == "v${{ inputs.version }}") | .name' "$YAML_PATH")
+          result=$(yq '.[] | select(.name == "${{ inputs.repo-name }}") | .items[] | select(.name == "v${{ env.version }}") | .name' "$YAML_PATH")
 
 
           if [ -z "$result" ]; then
             yq eval '
               .[] |= (
                 select(.name == "${{ inputs.repo-name }}") |=
-                  (.items |= [{"name": "v${{ inputs.version }}", "href": "charts/${{ inputs.repo-name }}/v${{ inputs.version }}/README.md"}] + .)
+                  (.items |= [{"name": "v${{ env.version }}", "href": "${{ inputs.repo-name }}/v${{ env.version }}/README.md"}] + .)
               )
             ' -i "$YAML_PATH"
           else
-            echo "Version v${{ inputs.version }} found, skipping"
+            echo "Version v${{ env.version }} found, skipping"
           fi
           cat $YAML_PATH
 
