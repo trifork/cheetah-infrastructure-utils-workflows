@@ -258,6 +258,7 @@ runs:
 
           result=$(yq '.[] | select(.name == "${{ inputs.repo-name }}") | .items[] | select(.name == "v${{ env.version }}") | .name' "$YAML_PATH")
 
+
           if [ -z "$result" ]; then
             yq eval '
               .[] |= (

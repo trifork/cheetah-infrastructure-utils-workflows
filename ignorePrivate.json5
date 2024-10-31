@@ -1,8 +1,0 @@
-{
-  "packageRules": [
-    {
-      "matchPackageNames": ["Cheetah.ComponentTest", "com.trifork.cheetah.processing:cheetah-lib-processing", "cheetah-backend-api", "Cheetah.WebApi.Shared"],
-      "enabled": false
-    }
-  ]
-}
