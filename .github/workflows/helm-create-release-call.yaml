@@ -78,8 +78,12 @@ jobs:
            file-path: ./charts/${{ inputs.helm-chart}}/README.md
            version: ${{ steps.bump-version.outputs.new-version }}
 
-      - name: Commit release branch bump
-        uses: EndBug/add-and-commit@v9
+      - name: Commit minor version bump
+        id: commit
+        uses: qoomon/actions--create-commit@v1
         with:
-          commit: -a
-          message: Bump release branch patch version
+          message: Bump minor version to keep version ahead of all releases
+          allow-empty: true
+
+      - if: ${{ steps.commit.outputs.commit }}
+        run: git push

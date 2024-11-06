@@ -70,7 +70,11 @@ jobs:
           version: ${{steps.bump-version.outputs.new-version}}
 
       - name: Commit minor version bump
-        uses: EndBug/add-and-commit@v9
+        id: commit
+        uses: qoomon/actions--create-commit@v1
         with:
-          commit: -a
           message: Bump minor version to keep version ahead of all releases
+          allow-empty: true
+
+      - if: ${{ steps.commit.outputs.commit }}
+        run: git push

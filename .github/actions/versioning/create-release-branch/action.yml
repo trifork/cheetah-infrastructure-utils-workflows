@@ -40,7 +40,18 @@ runs:
         git config user.email "cheetahbot@users.noreply.github.com"
 
         git checkout -b ${{ steps.get-release-branch-name.outputs.release-branch-name }}
-        git commit --allow-empty -am "Create new release branch ${{ steps.get-release-branch-name.outputs.release-branch-name }}"
+
+    - name: Commit new release branch
+      id: commit
+      uses: qoomon/actions--create-commit@v1
+      with:
+        message: Create new release branch ${{ steps.get-release-branch-name.outputs.release-branch-name }}
+        allow-empty: true
+
+    - name: Push commit
+      if: ${{ steps.commit.outputs.commit }}
+      shell: bash
+      run: |
         git push --set-upstream origin ${{ steps.get-release-branch-name.outputs.release-branch-name }}
 
         git checkout ${{ github.ref_name }}
