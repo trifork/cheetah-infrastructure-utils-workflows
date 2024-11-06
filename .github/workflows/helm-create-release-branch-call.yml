@@ -69,6 +69,9 @@ jobs:
           file-path: ./charts/${{ inputs.helm-chart}}/README.md
           version: ${{steps.bump-version.outputs.new-version}}
 
+      - name: git add
+        run: git add ./charts/${{ inputs.helm-chart}}/Chart.yaml ./charts/${{ inputs.helm-chart}}/README.md
+
       - name: Commit minor version bump
         id: commit
         uses: qoomon/actions--create-commit@v1
