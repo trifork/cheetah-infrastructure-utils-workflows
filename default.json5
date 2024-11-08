@@ -12,12 +12,12 @@
   // Extensions of file matches of type yaml
   // This makes renovate scan the same yaml file multiple times but since theres no naming convensions this is necessary
   "docker-compose": {
-      "fileMatch": ["\.yaml$"]
+      "fileMatch": [".\ya?ml$"]
   },
   "github-actions": {
     "fileMatch": [".\ya?ml$"]
   },
-  "helm": {
+  "kubernetes": {
     "fileMatch": [".\ya?ml$"]
   },
   "updateNotScheduled": false,
