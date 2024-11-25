@@ -13,13 +13,13 @@
   // Extensions of file matches of type yaml
   // This makes renovate scan the same yaml file multiple times but since theres no naming convensions this is necessary
   "docker-compose": {
-      "fileMatch": [".\ya?ml$"]
+    "fileMatch": ["(.+)\\.y(a?)ml"]
   },
   "github-actions": {
-    "fileMatch": [".\ya?ml$"]
+    "fileMatch": ["(.+)\\.y(a?)ml"]
   },
   "kubernetes": {
-    "fileMatch": [".\ya?ml$"]
+    "fileMatch": ["(.+)\\.y(a?)ml"]
   },
   // These labels lie outside of "packageRules" and will be appended to all PR's, no matter the type.
   // If Renovate has already made a pull request, it will not update the labels on said pr, even if changes are made. These labels will only be appended on future pr's.
