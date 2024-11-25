@@ -7,7 +7,8 @@
     "group:recommended",
     "replacements:all",
     "workarounds:all",
-    "docker:enableMajor"
+    "docker:enableMajor",
+    ":semanticCommits"
   ],
   // Extensions of file matches of type yaml
   // This makes renovate scan the same yaml file multiple times but since theres no naming convensions this is necessary
@@ -37,7 +38,6 @@
     "after 12pm and before 4pm every weekday"
   ],
   "vulnerabilityAlerts": {
-    "prTitle": "fix(deps): [VULNERABILITY] update {{depName}} from {{currentVersion}} to {{newVersion}}",
     "addLabels": [
       "vulnerability"
     ],
@@ -55,13 +55,17 @@
     "**/__tests__/**",
     "**/__fixtures__/**"
   ],
+  // displays specific version number
+  "commitMessageExtra": "to {{newVersion}}",
+  // removes default suffix, since it isn't specific about the version number
+  "commitMessageSuffix": "",
+  "commitMessageAction": "{{updateType}} update",
   "packageRules": [
     {
       //-----------------------------------------------------------------------------------------//
       //Settings for all patch updates. These are grouped by datasource. e.g. maven/.net/python.
       //-----------------------------------------------------------------------------------------//
-      "prTitle": "fix(deps): update all {{datasource}} patches",
-      "groupName": "patches",
+      "groupName": "patch",
       "matchPackagePatterns": [
         "*"
       ],
@@ -76,13 +80,15 @@
         "all-{{datasource}}-"
       ],
       "recreateWhen": "always",
+      "group": {
+        "commitMessageTopic": "{{datasource}} group"
+      },
       "automerge": true
     },
     {
       //-----------------------------------------------------------------------------------------//
       //Settings for major updates
       //-----------------------------------------------------------------------------------------//
-      "prTitle": "fix(deps): major update {{depName}} from {{currentVersion}} to {{newVersion}}",
       //Match every dependency
       "matchPackagePatterns": [
         "*"
@@ -105,7 +111,6 @@
       //-----------------------------------------------------------------------------------------//
       //Settings minor updates
       //-----------------------------------------------------------------------------------------//
-      "prTitle": "fix(deps): update all {{datasource}} minor",
       "groupName": "minor",
       "matchPackagePatterns": [
         "*"
@@ -120,6 +125,9 @@
       "additionalBranchPrefix": [
         "all-{{datasource}}-"
       ],
+      "group": {
+        "commitMessageTopic": "{{datasource}} group"
+      },
       "recreateWhen": "always"
     },
     /*
@@ -131,7 +139,6 @@
       // Renovate is unable to detect the sha of a digest update in the prTitle. It can only detect major/minor/patch e.g. 1.0.0 -> 2.1.1 - This means that automerging might have some issues and therefore "recreateWhen" has been set to "always" to see if this fixes the issue.
       // https://docs.renovatebot.com/docker/#digest-pinning slight overview of why we might want to enable digest updates + automerge in the future.
       //-----------------------------------------------------------------------------------------//
-      "prTitle": "fix(deps): digest update {{depName}}",
       "matchPackagePatterns": [
         "*"
       ],
@@ -149,7 +156,6 @@
       //-----------------------------------------------------------------------------------------//
       //Settings GitRepository and Kustomization
       //-----------------------------------------------------------------------------------------//
-      "prTitle": "fix(deps): update {{depName}} from {{currentVersion}} to {{newVersion}}",
       "matchPackageNames": [
         "GitRepository",
         "Kustomization"
@@ -168,7 +174,6 @@
       //These settings allows Renovate to create PR's for flink updates. 
       //These should always be handled manually.
       //-----------------------------------------------------------------------------------------//
-      "prTitle": "fix(deps): update all flink",
       "matchPackagePatterns": [
         "flink"
       ],
@@ -181,6 +186,9 @@
       "additionalBranchPrefix": [
         "flink-"
       ],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
       "recreateWhen": "always"
     },
     {
@@ -188,7 +196,6 @@
       //Settings for connectors
       //These should be handled manually.
       //-----------------------------------------------------------------------------------------//
-      "prTitle": "fix(deps): update {{depName}} from {{currentVersion}} to {{newVersion}}",
       "matchDepPatterns": [
         "connector"
       ],
@@ -206,7 +213,6 @@
       //Settings for Opensearch
       //These should be handled manually.
       //-----------------------------------------------------------------------------------------//
-      "prTitle": "fix(deps): update {{depName}} from {{currentVersion}} to {{newVersion}}",
       "matchPackagePatterns": [
         "opensearch"
       ],
@@ -223,7 +229,6 @@
       //Settings for Kafka
       //These should be handled manually.
       //-----------------------------------------------------------------------------------------//
-      "prTitle": "fix(deps): update {{depName}} from {{currentVersion}} to {{newVersion}}",
       "matchPackagePatterns": [
         "kafka"
       ],
@@ -246,7 +251,6 @@
       //Various disabled deps
       //These should be handled manually.
       //-----------------------------------------------------------------------------------------//
-      "prTitle": "fix(deps): update {{depName}} from {{currentVersion}} to {{newVersion}}",
       "matchPackagePatterns": [
         "oaas-observability"
       ],
@@ -270,7 +274,6 @@
       //These are dependencies we want to update even though they come from important packages
       //Specific package names can be included in the array below
       //-----------------------------------------------------------------------------------------//
-      "prTitle": "fix(deps): update {{depName}} from {{currentVersion}} to {{newVersion}}",
       "matchPackageNames": [
         "io.confluent:kafka-avro-serializer",
         "io.strimzi:kafka-oauth-client",
@@ -290,7 +293,6 @@
       //-----------------------------------------------------------------------------------------//
       //Settings for Cheetah deps. This matches any packages with "Cheetah" in it
       //-----------------------------------------------------------------------------------------//
-      "prTitle": "fix(deps): update {{depName}} from {{currentVersion}} to {{newVersion}}",
       //Match every dependency
       "matchPackagePatterns": [
         "Cheetah",
@@ -313,7 +315,6 @@
       //-----------------------------------------------------------------------------------------//
       //Settings for kubernetes-api
       //-----------------------------------------------------------------------------------------//
-      "prTitle": "fix(deps): update {{depName}} from {{currentVersion}} to {{newVersion}}",
       "matchDatasources": [
         "kubernetes-api"
       ],
@@ -326,7 +327,6 @@
       //-----------------------------------------------------------------------------------------//
       //Settings for javadoc
       //-----------------------------------------------------------------------------------------//
-      "prTitle": "fix(deps): update {{depName}} from {{currentVersion}} to {{newVersion}}",
       "matchPackageNames": [
         "org.apache.maven.plugins:maven-javadoc-plugin"
       ],
@@ -339,7 +339,6 @@
       //-----------------------------------------------------------------------------------------//
       //Settings for checkstyle
       //-----------------------------------------------------------------------------------------//
-      "prTitle": "fix(deps): update {{depName}} from {{currentVersion}} to {{newVersion}}",
       "matchPackageNames": [
         "com.puppycrawl.tools:checkstyle"
       ],
@@ -354,7 +353,6 @@
       //Settings for github-tags
       //Automerges all types of updates for github-tags e.g major/minor/patch/digest
       //-----------------------------------------------------------------------------------------//
-      "prTitle": "fix(deps): update {{depName}} from {{currentVersion}} to {{newVersion}}",
       "matchDatasources": [
         "github-tags"
       ],
@@ -428,7 +426,6 @@
       //-----------------------------------------------------------------------------------------//
       //Disable dotnet sdk patches
       //-----------------------------------------------------------------------------------------//
-      "prTitle": "fix(deps): update {{depName}} from {{currentVersion}} to {{newVersion}}",
       "matchPackageNames": [
         "dotnet-sdk"
       ],
