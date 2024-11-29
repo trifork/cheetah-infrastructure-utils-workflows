@@ -21,6 +21,9 @@
   "kubernetes": {
     "fileMatch": ["(.+)\\.y(a?)ml"]
   },
+  "flux": {
+    "fileMatch": ["(.+)\\.y(a?)ml"]
+  },
   // These labels lie outside of "packageRules" and will be appended to all PR's, no matter the type.
   // If Renovate has already made a pull request, it will not update the labels on said pr, even if changes are made. These labels will only be appended on future pr's.
   "labels": [
