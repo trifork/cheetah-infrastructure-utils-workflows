@@ -395,7 +395,6 @@
         "nuget"
       ],
       "registryUrls": [
-        "https://api.nuget.org/v3/index.json",
         "https://nuget.pkg.github.com/trifork/index.json"
       ]
     },
