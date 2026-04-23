@@ -24,6 +24,6 @@ jobs:
           pattern: "\\.json5$"
 
       - name: Validate
-        uses: rinchsan/renovate-config-validator@v0.2.0
+        uses: rinchsan/renovate-config-validator@v0.2.1
         with:
           pattern: 'renovate.json5' # Regular expression for filename to validate, default to *.json
