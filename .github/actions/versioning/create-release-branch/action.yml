@@ -41,6 +41,10 @@ runs:
 
         git checkout -b ${{ steps.get-release-branch-name.outputs.release-branch-name }}
 
+    - name: Stage version bump
+      shell: bash
+      run: git add -A
+
     - name: Commit new release branch
       id: commit
       uses: qoomon/actions--create-commit@v1
