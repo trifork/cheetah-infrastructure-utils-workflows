@@ -4,7 +4,7 @@ on:
   workflow_call:
     inputs:
       project-name:
-        description: Name used in the issue title (Release <project-name>). Defaults to the repository name
+        description: Name used in the issue title (Create new release of <project-name>). Defaults to the repository name
         type: string
         default: ""
       tag-prefix:
@@ -12,7 +12,7 @@ on:
         type: string
         default: ""
       interval-months:
-        description: Months since the last release before a reminder issue is created
+        description: Create a reminder if the latest release is older than this many months
         type: number
         default: 3
 
@@ -34,16 +34,19 @@ jobs:
           MONTHS: ${{ inputs.interval-months }}
         run: |
           set -euo pipefail
-          title="Release ${PROJECT:-$(basename "$GH_REPO")}"
+          title="Create new release of ${PROJECT:-$(basename "$GH_REPO")}"
 
-          last=$(gh release list --limit 300 --exclude-pre-releases --exclude-drafts \
-                   --json tagName,publishedAt |
-            jq -r --arg p "$TAG_PREFIX" \
+          latest=$(gh release list --limit 300 --exclude-pre-releases --exclude-drafts \
+                     --json tagName,publishedAt |
+            jq -c --arg p "$TAG_PREFIX" \
               '[.[] | select((.tagName | startswith($p)) and (.tagName | test("-RC") | not))]
-               | sort_by(.publishedAt) | last | .publishedAt // empty')
+               | sort_by(.publishedAt) | last // empty')
+
+          last=$(jq -r '.publishedAt // empty' <<< "${latest:-null}")
+          last_tag=$(jq -r '.tagName // empty' <<< "${latest:-null}")
 
           if [ -n "$last" ] && [ "$(date -u -d "$last" +%s)" -gt "$(date -u -d "-$MONTHS months" +%s)" ]; then
-            echo "Last release $last is recent enough"
+            echo "Last release $last_tag ($last) is recent enough"
             exit 0
           fi
 
@@ -55,7 +58,7 @@ jobs:
           fi
 
           if [ -n "$last" ]; then
-            body="The last release was published on $last, more than $MONTHS months ago. Please create a new release."
+            body="The last release was $last_tag, published on $last, more than $MONTHS months ago. Please create a new release."
           else
             body="No release has been published yet. Please create a release."
           fi
