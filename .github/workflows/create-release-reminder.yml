@@ -1,0 +1,64 @@
+name: Create Release Reminder
+
+on:
+  workflow_call:
+    inputs:
+      project-name:
+        description: Name used in the issue title (Release <project-name>). Defaults to the repository name
+        type: string
+        default: ""
+      tag-prefix:
+        description: Only releases whose tag starts with this prefix are considered. Empty means all releases
+        type: string
+        default: ""
+      interval-months:
+        description: Months since the last release before a reminder issue is created
+        type: number
+        default: 3
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Create release reminder if due
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          PROJECT: ${{ inputs.project-name }}
+          TAG_PREFIX: ${{ inputs.tag-prefix }}
+          MONTHS: ${{ inputs.interval-months }}
+        run: |
+          set -euo pipefail
+          title="Release ${PROJECT:-$(basename "$GH_REPO")}"
+
+          last=$(gh release list --limit 300 --exclude-pre-releases --exclude-drafts \
+                   --json tagName,publishedAt |
+            jq -r --arg p "$TAG_PREFIX" \
+              '[.[] | select((.tagName | startswith($p)) and (.tagName | test("-RC") | not))]
+               | sort_by(.publishedAt) | last | .publishedAt // empty')
+
+          if [ -n "$last" ] && [ "$(date -u -d "$last" +%s)" -gt "$(date -u -d "-$MONTHS months" +%s)" ]; then
+            echo "Last release $last is recent enough"
+            exit 0
+          fi
+
+          open=$(gh issue list --state open --label release-reminder --json title |
+            jq --arg t "$title" '[.[] | select(.title == $t)] | length')
+          if [ "$open" -gt 0 ]; then
+            echo "Reminder issue '$title' is already open"
+            exit 0
+          fi
+
+          if [ -n "$last" ]; then
+            body="The last release was published on $last, more than $MONTHS months ago. Please create a new release."
+          else
+            body="No release has been published yet. Please create a release."
+          fi
+
+          # Requires the release-reminder label to exist in the repository
+          gh issue create --title "$title" --label release-reminder --body "$body"
