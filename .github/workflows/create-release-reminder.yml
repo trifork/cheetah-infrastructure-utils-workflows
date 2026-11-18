@@ -71,7 +71,11 @@ jobs:
           project_gh() { GH_TOKEN="$PROJECT_TOKEN" gh "$@"; }
 
           # Resolve the project and fields before creating the issue, so a mistake does not leave an issue outside the board
-          project=$(project_gh project view "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" --format json)
+          project=$(project_gh api graphql \
+           -F owner="$PROJECT_OWNER" -F number="$PROJECT_NUMBER" \
+           -f query='query($owner: String!, $number: Int!) {
+              organization(login: $owner) { projectV2(number: $number) { id title } }
+            }' --jq '.data.organization.projectV2')
           project_id=$(jq -r '.id' <<< "$project")
           project_title=$(jq -r '.title' <<< "$project")
           if [ "$project_title" != "$PROJECT_TITLE" ]; then
