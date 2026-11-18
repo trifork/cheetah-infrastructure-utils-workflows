@@ -15,6 +15,10 @@ on:
         description: Create a reminder if the latest release is older than this many months
         type: number
         default: 3
+    secrets:
+      PROJECT_TOKEN:
+        description: Token with read/write access to the CheetahRangers organization project
+        required: true
 
 permissions:
   issues: write
@@ -32,6 +36,12 @@ jobs:
           PROJECT: ${{ inputs.project-name }}
           TAG_PREFIX: ${{ inputs.tag-prefix }}
           MONTHS: ${{ inputs.interval-months }}
+          PROJECT_TOKEN: ${{ secrets.PROJECT_TOKEN }}
+          PROJECT_OWNER: trifork
+          PROJECT_NUMBER: "170"
+          PROJECT_TITLE: CheetahRangers
+          ISSUE_TYPE: Task
+          PROJECT_FIELDS: '{"Status":"Ready","Priority":"Must","Area":"Upgrade"}'
         run: |
           set -euo pipefail
           title="Create new release of ${PROJECT:-$(basename "$GH_REPO")}"
@@ -57,6 +67,31 @@ jobs:
             exit 0
           fi
 
+          # GITHUB_TOKEN cannot access organization projects, so project calls use PROJECT_TOKEN
+          project_gh() { GH_TOKEN="$PROJECT_TOKEN" gh "$@"; }
+
+          # Resolve the project and fields before creating the issue, so a mistake does not leave an issue outside the board
+          project=$(project_gh project view "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" --format json)
+          project_id=$(jq -r '.id' <<< "$project")
+          project_title=$(jq -r '.title' <<< "$project")
+          if [ "$project_title" != "$PROJECT_TITLE" ]; then
+            echo "::error::Project $PROJECT_NUMBER is titled '$project_title', expected '$PROJECT_TITLE'"
+            exit 1
+          fi
+          fields=$(project_gh project field-list "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" --limit 100 --format json)
+
+          updates=$(jq -c --argjson want "$PROJECT_FIELDS" '
+            . as $all
+            | [$want | to_entries[] | . as $e
+               | ([$all.fields[] | select(.name == $e.key)][0]) as $f
+               | {name: $e.key, value: $e.value, field: $f.id,
+                  option: ([$f.options[]? | select(.name == $e.value)][0].id)}]' <<< "$fields")
+          missing=$(jq -r '.[] | select(.field == null or .option == null) | "\(.name)=\(.value)"' <<< "$updates")
+          if [ -n "$missing" ]; then
+            echo "::error::Project field or option not found: $missing"
+            exit 1
+          fi
+
           if [ -n "$last" ]; then
             body="The last release was $last_tag, published on $last, more than $MONTHS months ago. Please create a new release."
           else
@@ -64,4 +99,15 @@ jobs:
           fi
 
           # Requires the release-reminder label to exist in the repository
-          gh issue create --title "$title" --label release-reminder --body "$body"
+          issue_url=$(gh issue create --title "$title" --body "$body" \
+            --label release-reminder --type "$ISSUE_TYPE")
+          echo "Created $issue_url"
+
+          item_id=$(project_gh project item-add "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" \
+            --url "$issue_url" --format json | jq -r '.id')
+
+          while IFS=$'\t' read -r field option; do
+            project_gh project item-edit --id "$item_id" --project-id "$project_id" \
+              --field-id "$field" --single-select-option-id "$option"
+          done < <(jq -r '.[] | [.field, .option] | @tsv' <<< "$updates")
+          echo "Added to $PROJECT_TITLE"
