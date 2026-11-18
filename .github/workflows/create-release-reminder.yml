@@ -98,11 +98,9 @@ jobs:
             body="No release has been published yet. Please create a release."
           fi
 
-          # The REST API is used because gh issue create cannot set the issue type.
           # Requires the release-reminder label to exist in the repository
-          issue_url=$(gh api "repos/$GH_REPO/issues" \
-            -f "title=$title" -f "body=$body" -f "labels[]=release-reminder" -f "type=$ISSUE_TYPE" \
-            --jq .html_url)
+          issue_url=$(gh issue create --title "$title" --body "$body" \
+            --label release-reminder --type "$ISSUE_TYPE")
           echo "Created $issue_url"
 
           item_id=$(project_gh project item-add "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" \
